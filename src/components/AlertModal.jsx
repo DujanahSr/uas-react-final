@@ -53,10 +53,10 @@ const AlertModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 backdrop-blur-sm animate-fadeIn">
-      <div className="relative w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-2xl transform transition-all animate-slideUp">
+      <div className="relative w-full max-w-md transition-all transform bg-white shadow-2xl dark:bg-gray-800 rounded-2xl animate-slideUp">
         {/* Header dengan gradient */}
         <div
-          className={`bg-gradient-to-r ${config.bg} text-white p-6 rounded-t-2xl`}
+          className={`bg-linear-to-r ${config.bg} text-white p-6 rounded-t-2xl`}
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -73,7 +73,7 @@ const AlertModal = ({
             </div>
             <button
               onClick={onClose}
-              className="p-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors"
+              className="p-2 transition-colors rounded-lg hover:bg-white hover:bg-opacity-20"
             >
               <AiOutlineClose size={20} />
             </button>
@@ -82,13 +82,13 @@ const AlertModal = ({
 
         {/* Content */}
         <div className="p-6">
-          <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed">
+          <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
             {message}
           </p>
         </div>
 
         {/* Footer */}
-        <div className="p-6 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 rounded-b-2xl">
+        <div className="p-6 border-t border-gray-200 bg-gray-50 dark:bg-gray-900 dark:border-gray-700 rounded-b-2xl">
           <button
             onClick={onClose}
             className={`w-full px-6 py-3 text-white rounded-lg font-semibold transition-colors ${config.button}`}
