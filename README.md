@@ -1,205 +1,172 @@
-# 🛫 FlyBook - Sistem Pemesanan Tiket Pesawat
+# ✈️ FlyBook - Aplikasi Booking Tiket Pesawat
 
-Aplikasi web untuk pemesanan tiket pesawat dengan role User dan Admin, dibangun menggunakan React + Vite.
+[![React](https://img.shields.io/badge/React-18.2.0-blue.svg)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-5.0.0-646CFF.svg)](https://vitejs.dev/)
+[![PNPM](https://img.shields.io/badge/PNPM-8.0.0-F69220.svg)](https://pnpm.io/)
+[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.3.0-38B2AC.svg)](https://tailwindcss.com/)
 
-## 🚀 Quick Start
+> Platform booking tiket pesawat modern dengan antarmuka yang intuitif dan fitur lengkap untuk pengguna dan administrator.
 
-### Prerequisites
+## 📋 Deskripsi
 
-- **Node.js** (v18 atau lebih baru)
-- **pnpm** (atau npm/yarn)
+FlyBook adalah aplikasi web booking tiket pesawat yang dibangun dengan teknologi React dan Vite. Aplikasi ini menyediakan pengalaman booking yang mudah dan aman dengan fitur-fitur lengkap untuk pengguna biasa dan panel administrasi yang powerful.
 
-### Installation
+### 🎯 Tujuan Aplikasi
+- Memudahkan pengguna dalam mencari dan membooking tiket pesawat
+- Menyediakan platform yang aman dan terpercaya untuk transaksi penerbangan
+- Memberikan kontrol penuh kepada admin untuk mengelola sistem
+- Menawarkan pengalaman user yang modern dan responsif
 
-1. **Clone repository**
+## 🚀 Fitur-Fitur Utama
 
-   ```bash
-   git clone <repository-url>
-   cd uas-react-abu
-   ```
+### 👤 **Fitur untuk Pengguna (User)**
 
-2. **Install dependencies**
+#### 🔍 **Pencarian & Booking**
+- **Pencarian Penerbangan**: Cari penerbangan berdasarkan rute, tanggal, dan jumlah penumpang
+- **Filter & Sorting**: Filter berdasarkan maskapai, harga, durasi, dan waktu keberangkatan
+- **Detail Penerbangan**: Informasi lengkap tentang penerbangan termasuk fasilitas dan harga
+- **Multi-Class Booking**: Pilih kelas Economy, Business, atau First Class
 
-   ```bash
-   pnpm install
-   # atau
-   npm install
-   # atau
-   yarn install
-   ```
+#### 📋 **Manajemen Booking**
+- **Riwayat Pemesanan**: Lihat semua booking dengan status real-time
+- **Detail Booking**: Informasi lengkap booking termasuk E-Ticket
+- **Update Profil**: Kelola informasi pribadi dan preferensi
+- **Refund System**: Ajukan refund dengan alasan yang jelas
 
-3. **Run development server**
+#### 🔐 **Keamanan & Autentikasi**
+- **Login/Register**: Sistem autentikasi yang aman
+- **Session Management**: Manajemen sesi yang terproteksi
+- **Password Recovery**: Fitur pemulihan password (simulasi)
 
-   ```bash
-   pnpm dev
-   # atau
-   npm run dev
-   # atau
-   yarn dev
-   ```
+### 👨‍💼 **Fitur untuk Administrator (Admin)**
 
-4. **Buka browser**
-   - Buka `http://localhost:5173` (atau port yang ditampilkan di terminal)
+#### 📊 **Dashboard & Analytics**
+- **Dashboard Overview**: Statistik real-time pemesanan dan penerbangan
+- **Revenue Analytics**: Analisis pendapatan dan performa
+- **Booking Trends**: Tren pemesanan dan pola pengguna
 
-## 📋 Fitur Utama
+#### ✈️ **Manajemen Penerbangan**
+- **CRUD Penerbangan**: Tambah, edit, hapus, dan lihat penerbangan
+- **Flight Details**: Informasi lengkap penerbangan dengan fasilitas
+- **Bulk Operations**: Operasi massal untuk efisiensi
 
-### 👤 User Features
+#### 📋 **Manajemen Booking**
+- **Booking Oversight**: Pantau semua pemesanan
+- **Status Management**: Update status booking (Pending → Confirmed → Completed)
+- **Refund Processing**: Approve/reject permintaan refund dengan alasan
+- **Customer Support**: Alat bantu layanan pelanggan
 
-- ✅ Registrasi & Login
-- ✅ Pencarian Penerbangan (Sekali Jalan & Pulang Pergi)
-- ✅ Booking Tiket (Multi-step Form)
-- ✅ Riwayat Pemesanan
-- ✅ Profil User (Edit Data)
-- ✅ E-Ticket
+#### ⚙️ **Pengaturan Sistem**
+- **Display Settings**: Konfigurasi tampilan dan pagination
+- **Format Settings**: Pengaturan mata uang dan format tanggal
+- **Password Management**: Ganti password admin
+- **Data Backup/Restore**: Backup dan restore data sistem
 
-### 👨‍💼 Admin Features
+### 🎨 **Fitur UI/UX**
 
-- ✅ Dashboard dengan Statistik Real-time
-- ✅ Kelola Penerbangan (CRUD)
-- ✅ Kelola Pemesanan
-- ✅ Analytics & Laporan
-- ✅ Settings (Password, Display, Format, Backup)
+#### 🌙 **Tema & Desain**
+- **Dark/Light Mode**: Dukungan tema gelap dan terang
+- **Responsive Design**: Optimal di desktop, tablet, dan mobile
+- **Modern UI**: Antarmuka yang clean dan intuitif
+- **Smooth Animations**: Animasi yang halus dan menarik
 
-## 🔐 Login Credentials
+#### 🔧 **Teknis**
+- **Real-time Updates**: Update data secara real-time
+- **Persistent Settings**: Pengaturan tersimpan di localStorage
+- **Error Handling**: Penanganan error yang comprehensive
+- **Loading States**: Indikator loading untuk UX yang baik
 
-### Admin
+## 🛠️ Teknologi & Tools
 
-- **Email:** `admin@example.com`
-- **Password:** `admin123`
+### **Frontend Stack**
+- **React 18** - Library JavaScript untuk UI
+- **Vite** - Build tool dan dev server yang cepat
+- **TailwindCSS** - Framework CSS utility-first
+- **React Router** - Routing untuk SPA
+- **React Icons** - Icon library yang lengkap
 
-### User
+### **State Management**
+- **React Hooks**: useState, useEffect, useContext
+- **Context API**: State management global
+- **LocalStorage**: Persistent data storage
 
-- Daftar melalui halaman Register
-- Atau gunakan akun yang sudah terdaftar
+### **Development Tools**
+- **PNPM**: Package manager yang efisien
+- **ESLint**: Code linting dan formatting
+- **Git**: Version control
+- **VS Code**: IDE development
 
-## 📁 Struktur Project
 
-```
-uas-react-abu/
-├── src/
-│   ├── components/       # Komponen reusable
-│   ├── context/         # Context API (Auth, Data, Theme)
-│   ├── data/            # Mock data & helper functions
-│   ├── layouts/         # Layout components
-│   ├── pages/           # Halaman aplikasi
-│   │   ├── admin/       # Halaman admin
-│   │   └── user/        # Halaman user
-│   ├── App.jsx          # Main app component
-│   └── main.jsx         # Entry point
-├── public/              # Static files
-├── package.json         # Dependencies
-└── vite.config.js       # Vite configuration
-```
+## 👥 Cara Penggunaan
 
-## 💾 Data Storage
+### **Untuk Pengguna**
+1. **Register/Login**: Buat akun atau login dengan kredensial yang ada
+2. **Cari Penerbangan**: Gunakan form pencarian di halaman Home
+3. **Pilih Penerbangan**: Klik detail untuk melihat informasi lengkap
+4. **Booking**: Isi data penumpang dan lakukan pembayaran
+5. **Kelola Booking**: Pantau status di halaman "Riwayat Pemesanan"
 
-Aplikasi menggunakan **localStorage** dan **sessionStorage** untuk menyimpan data:
+### **Untuk Admin**
+1. **Login Admin**: Gunakan email `admin@gmail.com` dan password `admin123`
+2. **Dashboard**: Pantau statistik dan aktivitas sistem
+3. **Kelola Penerbangan**: Tambah/edit/hapus data penerbangan
+4. **Proses Booking**: Approve booking dan handle refund
+5. **Pengaturan**: Konfigurasi sistem sesuai kebutuhan
 
-- **localStorage:**
 
-  - `flights` - Data penerbangan
-  - `bookings` - Data pemesanan
-  - `users` - Data user terdaftar
-  - `user` - Session user yang login
-  - `adminDisplaySettings` - Pengaturan tampilan admin
-  - `adminFormatSettings` - Pengaturan format admin
+### **Admin Credentials (Default)**
+- **Email**: admin@gmail.com
+- **Password**: admin123
 
-- **sessionStorage:**
-  - `adminSession` - Session admin yang login
+### **User Demo Account**
+- **Email**: user@example.com
+- **Password**: user123
 
-## 🔄 Data Initialization
+## 📊 Fitur Data Management
 
-Saat pertama kali aplikasi dibuka:
+### **LocalStorage Keys**
+- `flights`: Data penerbangan
+- `bookings`: Data pemesanan
+- `adminDisplaySettings`: Pengaturan tampilan admin
+- `adminFormatSettings`: Pengaturan format admin
+- `adminSession`: Session admin
+- `userSession`: Session user
 
-1. Jika `localStorage.flights` kosong → Load dari `flightsData` (mockData.js) → Save ke localStorage
-2. Jika `localStorage.bookings` kosong → Initialize dengan array kosong
-3. Data akan otomatis tersedia untuk digunakan
-
-## ✅ Compatibility
-
-### Browser Support
-
-- ✅ Chrome/Edge (latest)
-- ✅ Firefox (latest)
-- ✅ Safari (latest)
-- ✅ Opera (latest)
-
-### OS Support
-
-- ✅ Windows
-- ✅ macOS
-- ✅ Linux
-
-## 🛠️ Build untuk Production
-
-```bash
-pnpm build
-# atau
-npm run build
-```
-
-File hasil build akan ada di folder `dist/`
-
-## 📝 Notes
-
-1. **Data Persistence:**
-
-   - Data tersimpan di browser localStorage
-   - Data akan hilang jika clear browser data
-   - Gunakan fitur Backup & Restore di Settings untuk backup data
-
-2. **Portability:**
-
-   - ✅ Semua dependencies sudah di `package.json`
-   - ✅ Tidak ada hardcoded paths
-   - ✅ Tidak ada environment variables
-   - ✅ Semua import menggunakan relative paths
-   - ✅ Data initialization otomatis dari mockData
-
-3. **Cross-Platform:**
-   - ✅ Aplikasi akan bekerja di laptop/OS manapun
-   - ✅ Hanya perlu install Node.js dan dependencies
-   - ✅ Tidak ada konfigurasi khusus yang diperlukan
+### **Data Backup**
+Admin dapat melakukan backup data melalui menu Settings → Backup & Restore
 
 ## 🐛 Troubleshooting
 
-### Data tidak muncul setelah git clone
+### **Common Issues**
 
-**Solusi:**
+**1. Data tidak muncul**
+```bash
+# Clear localStorage
+localStorage.clear()
+# Reload halaman
+```
 
-- Data akan otomatis di-initialize dari `mockData.js` saat pertama kali buka
-- Refresh halaman jika data belum muncul
+**2. Login gagal**
+- Pastikan kredensial benar
+- Cek sessionStorage untuk admin/user session
 
-### Error saat install dependencies
+**3. Build error**
+```bash
+# Clear cache dan reinstall
+rm -rf node_modules pnpm-lock.yaml
+pnpm install
+```
 
-**Solusi:**
+## 👨‍💻 Developer
 
-- Pastikan Node.js versi 18 atau lebih baru
-- Hapus `node_modules` dan `pnpm-lock.yaml` (atau `package-lock.json`)
-- Jalankan `pnpm install` lagi
+**Abu** - *Full Stack Developer*
+- GitHub: [@abu-dev](https://github.com/abu-dev)
+- LinkedIn: [Abu Developer](https://linkedin.com/in/abu-dev)
 
-### Port sudah digunakan
+## 🙏 Acknowledgments
 
-**Solusi:**
+- [React](https://reactjs.org/) - UI Library
+- [TailwindCSS](https://tailwindcss.com/) - CSS Framework
+- [React Icons](https://react-icons.github.io/react-icons/) - Icon Library
+- [Vite](https://vitejs.dev/) - Build Tool
 
-- Vite akan otomatis menggunakan port lain
-- Atau stop aplikasi yang menggunakan port tersebut
-
-## 📚 Dokumentasi
-
-- `FLOWCHART_SISTEM.md` - Flowchart lengkap sistem
-- `ALUR_SISTEM.md` - Dokumentasi alur sistem
-- `CARA_TESTING.md` - Panduan testing
-
-## 🎯 Tech Stack
-
-- **React 19** - UI Framework
-- **Vite** - Build Tool
-- **React Router DOM** - Routing
-- **Tailwind CSS** - Styling
-- **React Icons** - Icons
-- **localStorage/sessionStorage** - Data Persistence
-
----
-
-**Dibuat dengan ❤️ untuk UAS React**
