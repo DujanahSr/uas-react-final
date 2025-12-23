@@ -1,0 +1,345 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Animations for modals */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.3s ease-out;
+}
+
+/* Animations for loading screen */
+@keyframes fly {
+  0% {
+    transform: translateX(-20px) rotate(-10deg);
+  }
+  50% {
+    transform: translateX(20px) rotate(10deg);
+  }
+  100% {
+    transform: translateX(-20px) rotate(-10deg);
+  }
+}
+
+@keyframes pulse-slow {
+  0%,
+  100% {
+    opacity: 0.1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.2;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes progress {
+  0% {
+    width: 0%;
+  }
+  50% {
+    width: 70%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.animate-fly {
+  animation: fly 3s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 5s ease-in-out infinite;
+}
+
+.delay-1000 {
+  animation-delay: 2s;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.9s ease-out;
+}
+
+.animate-progress {
+  animation: progress 3s ease-in-out infinite;
+}
+
+.delay-200 {
+  animation-delay: 0.3s;
+}
+
+.delay-400 {
+  animation-delay: 0.5s;
+}
+
+/* Bounce animation for loading dots */
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* 3D Animations */
+@keyframes float3D {
+  0%,
+  100% {
+    transform: translateY(0px) rotateX(0deg) rotateY(0deg);
+  }
+  25% {
+    transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+  }
+  50% {
+    transform: translateY(-20px) rotateX(0deg) rotateY(0deg);
+  }
+  75% {
+    transform: translateY(-10px) rotateX(-5deg) rotateY(-5deg);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    max-height: 1000px;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes rotate3D {
+  0% {
+    transform: perspective(1000px) rotateY(0deg);
+  }
+  100% {
+    transform: perspective(1000px) rotateY(360deg);
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.6);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.animate-float3D {
+  animation: float3D 6s ease-in-out infinite;
+}
+
+.animate-slideInUp {
+  animation: slideInUp 0.6s ease-out;
+}
+
+.animate-slideDown {
+  animation: slideDown 0.3s ease-out;
+}
+
+.animate-slideInLeft {
+  animation: slideInLeft 0.6s ease-out;
+}
+
+.animate-slideInRight {
+  animation: slideInRight 0.6s ease-out;
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.5s ease-out;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* 3D Card Effect */
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+.card-3d:hover {
+  transform: translateY(-8px) rotateX(2deg) rotateY(2deg);
+}
+
+/* Premium Dark Mode Colors */
+.dark {
+  --tw-bg-opacity: 1;
+  background-color: rgb(15 23 42 / var(--tw-bg-opacity)); /* slate-900 */
+}
+
+.dark .bg-gray-800 {
+  background-color: rgb(30 41 59 / 1); /* slate-800 */
+}
+
+.dark .bg-gray-700 {
+  background-color: rgb(51 65 85 / 1); /* slate-700 */
+}
+
+.dark .border-gray-700 {
+  border-color: rgb(51 65 85 / 1);
+}
+
+.dark .border-gray-600 {
+  border-color: rgb(71 85 105 / 1); /* slate-600 */
+}
+
+/* Gradient Text */
+.gradient-text {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dark .gradient-text {
+  background: linear-gradient(135deg, #818cf8 0%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glass Effect */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .glass-effect {
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+/* Responsive Utilities */
+@media (max-width: 640px) {
+  .text-responsive-xl {
+    font-size: 1.5rem;
+  }
+
+  .text-responsive-2xl {
+    font-size: 1.25rem;
+  }
+
+  .text-responsive-3xl {
+    font-size: 1.875rem;
+  }
+
+  .text-responsive-4xl {
+    font-size: 2rem;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .text-responsive-xl {
+    font-size: 2rem;
+  }
+
+  .text-responsive-2xl {
+    font-size: 1.5rem;
+  }
+
+  .text-responsive-3xl {
+    font-size: 2.25rem;
+  }
+
+  .text-responsive-4xl {
+    font-size: 3rem;
+  }
+}

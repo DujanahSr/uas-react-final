@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="planeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#2563EB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1E40AF;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="wingGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#60A5FA;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3B82F6;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="2" dy="2" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Main Body -->
+  <path d="M256 80 L320 120 L380 140 L420 160 L460 180 L480 200 L460 220 L420 240 L380 260 L320 280 L256 320 L192 280 L132 260 L92 240 L52 220 L32 200 L52 180 L92 160 L132 140 L192 120 Z" 
+        fill="url(#planeGradient)" 
+        filter="url(#shadow)"
+        stroke="#1E3A8A" 
+        stroke-width="2"/>
+  
+  <!-- Front Window -->
+  <ellipse cx="320" cy="200" rx="25" ry="20" fill="#E0F2FE" opacity="0.9"/>
+  <ellipse cx="320" cy="200" rx="15" ry="12" fill="#0EA5E9"/>
+  
+  <!-- Side Windows -->
+  <circle cx="280" cy="200" r="8" fill="#E0F2FE" opacity="0.8"/>
+  <circle cx="250" cy="200" r="8" fill="#E0F2FE" opacity="0.8"/>
+  <circle cx="220" cy="200" r="8" fill="#E0F2FE" opacity="0.8"/>
+  
+  <!-- Top Wing -->
+  <path d="M200 180 L180 120 L220 140 L240 160 Z" 
+        fill="url(#wingGradient)" 
+        opacity="0.9"
+        filter="url(#shadow)"/>
+  <path d="M312 180 L292 120 L332 140 L352 160 Z" 
+        fill="url(#wingGradient)" 
+        opacity="0.9"
+        filter="url(#shadow)"/>
+  
+  <!-- Bottom Wing -->
+  <path d="M200 220 L180 280 L220 260 L240 240 Z" 
+        fill="url(#wingGradient)" 
+        opacity="0.9"
+        filter="url(#shadow)"/>
+  <path d="M312 220 L292 280 L332 260 L352 240 Z" 
+        fill="url(#wingGradient)" 
+        opacity="0.9"
+        filter="url(#shadow)"/>
+  
+  <!-- Tail Fin -->
+  <path d="M180 200 L140 120 L160 160 L180 180 Z" 
+        fill="url(#planeGradient)" 
+        opacity="0.95"
+        filter="url(#shadow)"/>
+  
+  <!-- Engine Details -->
+  <ellipse cx="240" cy="200" rx="12" ry="8" fill="#1E3A8A" opacity="0.6"/>
+  <ellipse cx="272" cy="200" rx="12" ry="8" fill="#1E3A8A" opacity="0.6"/>
+  
+  <!-- Highlight -->
+  <path d="M256 80 L320 120 L380 140 L420 160 L460 180 L480 200 L460 220 L420 240 L380 260 L320 280 L256 320" 
+        fill="none" 
+        stroke="#60A5FA" 
+        stroke-width="1" 
+        opacity="0.4"/>
+</svg>
+
