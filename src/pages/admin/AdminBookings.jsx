@@ -396,7 +396,7 @@ const AdminBookings = () => {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-gray-50 via-blue-50/20 to-indigo-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
+    <div className="relative min-h-screen overflow-hidden bg-linear-to-br from-gray-50 via-blue-50/20 to-indigo-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute rounded-full top-20 left-10 w-72 h-72 bg-blue-200/20 dark:bg-blue-500/10 blur-3xl animate-pulse-slow"></div>
@@ -767,7 +767,7 @@ const AdminBookings = () => {
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <div className="flex flex-col gap-2 min-w-[190px]">
+                        <div className="flex flex-col gap-2 min-w-47.5">
                           <div className="flex gap-2">
                             <select
                               value={booking.status}

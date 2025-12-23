@@ -85,7 +85,7 @@ const Login = () => {
   }
 
   return (
-    <div className="relative flex items-center justify-center min-h-screen p-4 overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="relative flex items-center justify-center min-h-screen p-4 overflow-hidden bg-linear-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute bg-blue-200 rounded-full -top-20 -right-20 w-96 h-96 opacity-20 blur-3xl animate-pulse"></div>
@@ -96,12 +96,12 @@ const Login = () => {
       <div className="w-full max-w-md p-10 bg-white/90 backdrop-blur-sm border border-gray-200 shadow-2xl dark:bg-gray-800/90 dark:border-gray-700 rounded-3xl relative z-10 transform transition-all duration-500 hover:scale-[1.02]">
         <div className="mb-8 text-center">
           <div className="relative flex items-center justify-center w-24 h-24 mx-auto mb-6">
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 animate-ping opacity-20"></div>
-            <div className="relative flex items-center justify-center w-24 h-24 rounded-full shadow-lg bg-gradient-to-r from-blue-600 to-indigo-600">
+            <div className="absolute inset-0 rounded-full bg-linear-to-r from-blue-500 to-indigo-600 animate-ping opacity-20"></div>
+            <div className="relative flex items-center justify-center w-24 h-24 rounded-full shadow-lg bg-linear-to-r from-blue-600 to-indigo-600">
               <FaPlane size={40} className="text-white animate-bounce" style={{ animationDuration: '2s' }} />
             </div>
           </div>
-          <h2 className="text-4xl font-bold text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text dark:from-blue-400 dark:to-indigo-400">
+          <h2 className="text-4xl font-bold text-transparent bg-linear-to-r from-blue-600 to-indigo-600 bg-clip-text dark:from-blue-400 dark:to-indigo-400">
             Selamat Datang di FlyBook
           </h2>
           <p className="mt-3 text-lg text-gray-600 dark:text-gray-400">
@@ -200,7 +200,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-4 font-bold text-white transition-all shadow-lg bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl hover:from-blue-700 hover:to-indigo-700 hover:shadow-xl disabled:opacity-70 transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
+            className="w-full py-4 font-bold text-white transition-all shadow-lg bg-linear-to-r from-blue-600 to-indigo-600 rounded-xl hover:from-blue-700 hover:to-indigo-700 hover:shadow-xl disabled:opacity-70 transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
           >
             {loading ? (
               <>

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
@@ -188,12 +189,12 @@ const AdminDashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/20 to-indigo-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 relative overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden bg-linear-to-br from-gray-50 via-blue-50/20 to-indigo-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-200/20 dark:bg-blue-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
+        <div className="absolute rounded-full top-20 left-10 w-72 h-72 bg-blue-200/20 dark:bg-blue-500/10 blur-3xl animate-pulse-slow"></div>
         <div
-          className="absolute bottom-20 right-10 w-96 h-96 bg-indigo-200/20 dark:bg-indigo-500/10 rounded-full blur-3xl animate-pulse-slow"
+          className="absolute rounded-full bottom-20 right-10 w-96 h-96 bg-indigo-200/20 dark:bg-indigo-500/10 blur-3xl animate-pulse-slow"
           style={{ animationDelay: "1s" }}
         ></div>
       </div>
@@ -224,9 +225,9 @@ const AdminDashboard = () => {
             className="lg:col-span-2 animate-slideInUp"
             style={{ animationDelay: "0.5s" }}
           >
-            <div className="p-4 mb-4 sm:mb-6 transition-all duration-300 bg-white/90 backdrop-blur-sm border border-gray-200/50 shadow-lg dark:bg-slate-800/90 dark:border-slate-700/50 rounded-xl card-3d sm:p-6">
+            <div className="p-4 mb-4 transition-all duration-300 border shadow-lg sm:mb-6 bg-white/90 backdrop-blur-sm border-gray-200/50 dark:bg-slate-800/90 dark:border-slate-700/50 rounded-xl card-3d sm:p-6">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
+                <h2 className="flex items-center gap-2 text-xl font-bold text-gray-800 dark:text-white">
                   <FaPlane size={20} />
                   Penerbangan Tersedia
                   {headerSearch && (
@@ -243,7 +244,7 @@ const AdminDashboard = () => {
                 </button>
               </div>
               {headerSearch && (
-                <div className="mb-4 p-3 text-sm bg-gray-100/80 backdrop-blur-sm border-b border-gray-200/50 dark:bg-slate-700/50 dark:border-slate-600/50 rounded-lg animate-slideInUp">
+                <div className="p-3 mb-4 text-sm border-b rounded-lg bg-gray-100/80 backdrop-blur-sm border-gray-200/50 dark:bg-slate-700/50 dark:border-slate-600/50 animate-slideInUp">
                   Menampilkan hasil untuk:{" "}
                   <strong className="text-gray-900 dark:text-white">
                     "{headerSearch}"
@@ -256,11 +257,11 @@ const AdminDashboard = () => {
 
           {/* Recent Bookings */}
           <div
-            className="p-4 transition-all duration-300 bg-white/90 backdrop-blur-sm border border-gray-200/50 shadow-lg dark:bg-slate-800/90 dark:border-slate-700/50 rounded-xl card-3d animate-slideInUp sm:p-6"
+            className="p-4 transition-all duration-300 border shadow-lg bg-white/90 backdrop-blur-sm border-gray-200/50 dark:bg-slate-800/90 dark:border-slate-700/50 rounded-xl card-3d animate-slideInUp sm:p-6"
             style={{ animationDelay: "0.6s" }}
           >
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-bold text-gray-800 dark:text-white flex items-center gap-2">
+              <h3 className="flex items-center gap-2 font-bold text-gray-800 dark:text-white">
                 <AiOutlineFileText size={18} />
                 Pemesanan Terbaru
               </h3>
@@ -273,7 +274,7 @@ const AdminDashboard = () => {
             </div>
             <div className="space-y-4">
               {headerSearch && (
-                <div className="mb-2 p-3 text-sm bg-gray-100/80 backdrop-blur-sm border-b border-gray-200/50 dark:bg-slate-700/50 dark:border-slate-600/50 rounded-lg animate-slideInUp">
+                <div className="p-3 mb-2 text-sm border-b rounded-lg bg-gray-100/80 backdrop-blur-sm border-gray-200/50 dark:bg-slate-700/50 dark:border-slate-600/50 animate-slideInUp">
                   Menampilkan hasil untuk:{" "}
                   <strong className="text-gray-900 dark:text-white">
                     "{headerSearch}"
@@ -325,12 +326,12 @@ const AdminDashboard = () => {
         </div>
 
         {/* Top Airlines & Routes */}
-        <div className="grid grid-cols-1 gap-4 sm:gap-6 mt-4 sm:mt-6 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 mt-4 sm:gap-6 sm:mt-6 lg:grid-cols-2">
           <div
-            className="p-4 transition-all duration-300 bg-white/90 backdrop-blur-sm border border-gray-200/50 shadow-lg dark:bg-slate-800/90 dark:border-slate-700/50 rounded-xl card-3d animate-slideInUp sm:p-6"
+            className="p-4 transition-all duration-300 border shadow-lg bg-white/90 backdrop-blur-sm border-gray-200/50 dark:bg-slate-800/90 dark:border-slate-700/50 rounded-xl card-3d animate-slideInUp sm:p-6"
             style={{ animationDelay: "0.8s" }}
           >
-            <h3 className="mb-6 font-bold text-gray-800 dark:text-white flex items-center gap-2">
+            <h3 className="flex items-center gap-2 mb-6 font-bold text-gray-800 dark:text-white">
               <FaPlane size={18} />
               Maskapai Terlaris
             </h3>
@@ -387,7 +388,7 @@ const AdminDashboard = () => {
 
                 {/* Bar Chart Container */}
                 {/* Urutan: Index 0 = tiket TERBANYAK = bar TERTINGGI, Index selanjutnya = tiket lebih sedikit = bar lebih rendah */}
-                <div className="flex items-end justify-between gap-4 h-34 mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
+                <div className="flex items-end justify-between gap-4 pb-4 mb-4 border-b border-gray-200 h-34 dark:border-gray-700">
                   {topAirlines.map((airline, index) => {
                     // heightPercentage: 100% untuk maskapai dengan tiket terbanyak (index 0)
                     // Semakin rendah index, semakin tinggi bar-nya (karena sudah di-sort descending)
@@ -407,12 +408,12 @@ const AdminDashboard = () => {
                     return (
                       <div
                         key={index}
-                        className="flex-1 flex flex-col items-center group"
+                        className="flex flex-col items-center flex-1 group"
                       >
                         {/* Bar */}
-                        <div className="relative w-full flex flex-col items-center justify-end">
+                        <div className="relative flex flex-col items-center justify-end w-full">
                           <div
-                            className="w-full rounded-t-lg transition-all duration-500 hover:shadow-xl hover:scale-105"
+                            className="w-full transition-all duration-500 rounded-t-lg hover:shadow-xl hover:scale-105"
                             style={{
                               height: `${Math.max(
                                 heightPercentage * 2.2,
@@ -435,12 +436,12 @@ const AdminDashboard = () => {
                         </div>
                         {/* Airline Name and Ticket Count */}
                         <div className="mt-4 text-center">
-                          <p className="text-sm font-semibold text-gray-800 dark:text-white leading-tight mb-1">
+                          <p className="mb-1 text-sm font-semibold leading-tight text-gray-800 dark:text-white">
                             {airline.name.length > 18
                               ? airline.name.substring(0, 18) + "..."
                               : airline.name}
                           </p>
-                          <p className="text-xs text-gray-600 dark:text-gray-300 font-medium">
+                          <p className="text-xs font-medium text-gray-600 dark:text-gray-300">
                             {airline.sales} tiket
                           </p>
                         </div>
@@ -450,9 +451,9 @@ const AdminDashboard = () => {
                 </div>
 
                 {/* Summary Stats */}
-                <div className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <div className="grid grid-cols-2 gap-4 pt-4 mt-4 border-t border-gray-200 dark:border-gray-700">
                   <div>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">
+                    <p className="mb-1 text-xs text-gray-500 dark:text-gray-400">
                       Total Tiket
                     </p>
                     <p className="text-lg font-bold text-gray-800 dark:text-white">
@@ -460,7 +461,7 @@ const AdminDashboard = () => {
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">
+                    <p className="mb-1 text-xs text-gray-500 dark:text-gray-400">
                       Total Revenue
                     </p>
                     <p className="text-lg font-bold text-green-600 dark:text-green-400">
@@ -488,10 +489,10 @@ const AdminDashboard = () => {
           </div>
 
           <div
-            className="p-4 transition-all duration-300 bg-white/90 backdrop-blur-sm border border-gray-200/50 shadow-lg dark:bg-slate-800/90 dark:border-slate-700/50 rounded-xl card-3d animate-slideInUp sm:p-6"
+            className="p-4 transition-all duration-300 border shadow-lg bg-white/90 backdrop-blur-sm border-gray-200/50 dark:bg-slate-800/90 dark:border-slate-700/50 rounded-xl card-3d animate-slideInUp sm:p-6"
             style={{ animationDelay: "0.9s" }}
           >
-            <h3 className="mb-4 text-base font-bold text-gray-800 sm:text-lg dark:text-white flex items-center gap-2">
+            <h3 className="flex items-center gap-2 mb-4 text-base font-bold text-gray-800 sm:text-lg dark:text-white">
               <AiOutlineRise size={18} />
               Rute Terpopuler
             </h3>

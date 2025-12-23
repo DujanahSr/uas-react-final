@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import React, { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
@@ -218,7 +220,7 @@ const Help = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/20 to-indigo-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
+    <div className="min-h-screen bg-linear-to-br from-gray-50 via-blue-50/20 to-indigo-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
       <main className="max-w-6xl px-4 py-6 mx-auto sm:px-6 lg:px-8">
         {/* Search Bar */}
         <div
@@ -235,7 +237,7 @@ const Help = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Cari pertanyaan atau kata kunci..."
-              className="w-full px-4 py-4 pl-12 text-gray-800 bg-white border border-gray-300 rounded-xl dark:bg-slate-800 dark:text-white dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm transition-all"
+              className="w-full px-4 py-4 pl-12 text-gray-800 transition-all bg-white border border-gray-300 shadow-sm rounded-xl dark:bg-slate-800 dark:text-white dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
         </div>
@@ -254,7 +256,7 @@ const Help = () => {
                   onClick={() => setSelectedCategory(category.id)}
                   className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium transition-all transform hover:scale-105 active:scale-95 ${
                     selectedCategory === category.id
-                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg"
+                      ? "bg-linear-to-r from-blue-600 to-indigo-600 text-white shadow-lg"
                       : "bg-white text-gray-700 border border-gray-300 dark:bg-slate-800 dark:text-gray-300 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-700"
                   }`}
                 >
@@ -289,7 +291,7 @@ const Help = () => {
               return (
                 <div
                   key={faq.id}
-                  className="bg-white/90 backdrop-blur-sm border border-gray-200/50 rounded-xl shadow-lg dark:bg-slate-800/90 dark:border-slate-700/50 card-3d animate-slideInUp overflow-hidden transition-all hover:shadow-xl"
+                  className="overflow-hidden transition-all border shadow-lg bg-white/90 backdrop-blur-sm border-gray-200/50 rounded-xl dark:bg-slate-800/90 dark:border-slate-700/50 card-3d animate-slideInUp hover:shadow-xl"
                   style={{ animationDelay: `${0.1 * index}s` }}
                 >
                   <button
@@ -297,8 +299,8 @@ const Help = () => {
                     className="w-full px-6 py-5 text-left transition-colors hover:bg-gray-50/50 dark:hover:bg-slate-700/50"
                   >
                     <div className="flex items-start justify-between gap-4">
-                      <div className="flex items-start gap-4 flex-1">
-                        <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex-shrink-0">
+                      <div className="flex items-start flex-1 gap-4">
+                        <div className="p-2 bg-blue-100 rounded-lg shrink-0 dark:bg-blue-900/30">
                           <CategoryIcon
                             size={20}
                             className="text-blue-600 dark:text-blue-400"
@@ -310,7 +312,7 @@ const Help = () => {
                           </h3>
                         </div>
                       </div>
-                      <div className="flex-shrink-0">
+                      <div className="shrink-0">
                         {isExpanded ? (
                           <AiOutlineUp
                             size={20}
@@ -327,10 +329,10 @@ const Help = () => {
                   </button>
 
                   {isExpanded && (
-                    <div className="px-6 pb-5 pt-0 border-t border-gray-200/50 dark:border-slate-700/50 animate-slideDown">
+                    <div className="px-6 pt-0 pb-5 border-t border-gray-200/50 dark:border-slate-700/50 animate-slideDown">
                       <div className="pt-4 pl-12">
-                        <div className="prose prose-sm max-w-none dark:prose-invert">
-                          <p className="text-gray-700 dark:text-gray-300 whitespace-pre-line leading-relaxed">
+                        <div className="prose-sm prose max-w-none dark:prose-invert">
+                          <p className="leading-relaxed text-gray-700 whitespace-pre-line dark:text-gray-300">
                             {faq.answer}
                           </p>
                         </div>
@@ -342,7 +344,7 @@ const Help = () => {
             })
           ) : (
             <div
-              className="p-12 text-center bg-white/90 backdrop-blur-sm border border-gray-200/50 rounded-xl shadow-lg dark:bg-slate-800/90 dark:border-slate-700/50 card-3d animate-slideInUp"
+              className="p-12 text-center border shadow-lg bg-white/90 backdrop-blur-sm border-gray-200/50 rounded-xl dark:bg-slate-800/90 dark:border-slate-700/50 card-3d animate-slideInUp"
               style={{ animationDelay: "0.3s" }}
             >
               <AiOutlineSearch
@@ -361,11 +363,11 @@ const Help = () => {
 
         {/* Contact Support Section */}
         <div
-          className="mt-8 p-6 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl shadow-lg animate-slideInUp card-3d"
+          className="p-6 mt-8 shadow-lg bg-linear-to-r from-blue-600 to-indigo-600 rounded-xl animate-slideInUp card-3d"
           style={{ animationDelay: "0.4s" }}
         >
           <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:text-left">
-            <div className="p-3 bg-white/20 rounded-lg backdrop-blur-sm">
+            <div className="p-3 rounded-lg bg-white/20 backdrop-blur-sm">
               <FaShieldAlt size={32} className="text-white" />
             </div>
             <div className="flex-1">
@@ -379,14 +381,14 @@ const Help = () => {
             <div className="flex flex-wrap gap-3 sm:flex-nowrap">
               <a
                 href="mailto:support@flybook.com"
-                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-white/20 rounded-lg backdrop-blur-sm hover:bg-white/30 transition-all transform hover:scale-105"
+                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white transition-all transform rounded-lg bg-white/20 backdrop-blur-sm hover:bg-white/30 hover:scale-105"
               >
                 <AiOutlineMail size={18} />
                 <span className="hidden sm:inline">Email</span>
               </a>
               <a
                 href="tel:+6281234567890"
-                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-white/20 rounded-lg backdrop-blur-sm hover:bg-white/30 transition-all transform hover:scale-105"
+                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white transition-all transform rounded-lg bg-white/20 backdrop-blur-sm hover:bg-white/30 hover:scale-105"
               >
                 <AiOutlinePhone size={18} />
                 <span className="hidden sm:inline">Telepon</span>

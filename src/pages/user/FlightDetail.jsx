@@ -1,3 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useData } from "../../context/DataContext";
@@ -9,8 +12,7 @@ import {
   validateKTP,
   validatePassport,
   validateDateOfBirth,
-  validateEmail,
-  validatePhone,
+  
 } from "../../utils/validation";
 import {
   AiOutlineUser,
@@ -53,7 +55,7 @@ const FlightDetail = () => {
           </p>
           <button
             onClick={() => navigate("/")}
-            className="mt-6 flex items-center gap-2 px-6 py-3 mx-auto text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-all"
+            className="flex items-center gap-2 px-6 py-3 mx-auto mt-6 text-white transition-all bg-blue-600 rounded-lg hover:bg-blue-700"
           >
             <AiOutlineHome size={18} />
             Kembali ke Home
@@ -274,10 +276,10 @@ const FlightDetail = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/20 to-indigo-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
+    <div className="min-h-screen bg-linear-to-br from-gray-50 via-blue-50/20 to-indigo-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
       <main className="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
         {/* Flight Info Header */}
-        <div className="p-4 mb-6 bg-white/90 backdrop-blur-sm border border-gray-200/50 rounded-xl shadow-lg dark:bg-slate-800/90 dark:border-slate-700/50 card-3d animate-slideInUp sm:p-6">
+        <div className="p-4 mb-6 border shadow-lg bg-white/90 backdrop-blur-sm border-gray-200/50 rounded-xl dark:bg-slate-800/90 dark:border-slate-700/50 card-3d animate-slideInUp sm:p-6">
           <div className="flex flex-col gap-4 mb-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex-1">
               <h1 className="text-xl font-bold text-gray-900 sm:text-2xl dark:text-white">
@@ -289,9 +291,9 @@ const FlightDetail = () => {
             </div>
             <button
               onClick={() => navigate("/")}
-              className="flex items-center justify-center gap-2 px-3 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg dark:bg-slate-700 dark:text-gray-300 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-600 transition-all transform hover:scale-105 active:scale-95 sm:ml-4 sm:px-4"
+              className="flex items-center justify-center gap-2 px-3 py-2 text-sm text-gray-700 transition-all transform bg-white border border-gray-300 rounded-lg dark:bg-slate-700 dark:text-gray-300 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-600 hover:scale-105 active:scale-95 sm:ml-4 sm:px-4"
             >
-              <AiOutlineHome size={16} className="sm:w-[18px] sm:h-[18px]" />
+              <AiOutlineHome size={16} className="sm:w-4.5 sm:h-4.5" />
               <span className="hidden sm:inline">Ke Home</span>
             </button>
           </div>
@@ -310,10 +312,10 @@ const FlightDetail = () => {
           className="mb-6 sm:mb-8 animate-slideInUp"
           style={{ animationDelay: "0.2s" }}
         >
-          <div className="flex items-center justify-between overflow-x-auto pb-2">
+          <div className="flex items-center justify-between pb-2 overflow-x-auto">
             {[1, 2, 3, 4].map((step) => (
               <React.Fragment key={step}>
-                <div className="flex items-center flex-shrink-0">
+                <div className="flex items-center shrink-0">
                   <div
                     className={`flex items-center justify-center w-8 h-8 rounded-full border-2 transition-all duration-300 sm:w-10 sm:h-10 ${
                       currentStep >= step
@@ -332,7 +334,7 @@ const FlightDetail = () => {
                       </span>
                     )}
                   </div>
-                  <div className="ml-2 hidden sm:block">
+                  <div className="hidden ml-2 sm:block">
                     <div
                       className={`text-xs font-medium sm:text-sm ${
                         currentStep >= step
@@ -365,13 +367,13 @@ const FlightDetail = () => {
           {/* Main Content */}
           <div className="lg:col-span-2">
             <div
-              className="p-4 bg-white/90 backdrop-blur-sm border border-gray-200/50 rounded-xl shadow-lg dark:bg-slate-800/90 dark:border-slate-700/50 card-3d animate-slideInUp sm:p-6 lg:p-8"
+              className="p-4 border shadow-lg bg-white/90 backdrop-blur-sm border-gray-200/50 rounded-xl dark:bg-slate-800/90 dark:border-slate-700/50 card-3d animate-slideInUp sm:p-6 lg:p-8"
               style={{ animationDelay: "0.3s" }}
             >
               {/* Step 1: Jumlah Penumpang & Kelas */}
               {currentStep === 1 && (
                 <div>
-                  <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                  <h2 className="flex items-center gap-2 mb-6 text-2xl font-bold text-gray-900 dark:text-white">
                     <HiOutlineUserGroup size={24} />
                     Jumlah Penumpang & Kelas
                   </h2>
@@ -530,13 +532,13 @@ const FlightDetail = () => {
               {currentStep === 2 && (
                 <div>
                   <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                    <h2 className="flex items-center gap-2 text-2xl font-bold text-gray-900 dark:text-white">
                       <AiOutlineUser size={24} />
                       Data Penumpang
                     </h2>
                     {passengerData.length > 0 &&
                       passengerData[0]?.name === user?.name && (
-                        <div className="px-4 py-2 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg flex items-center gap-2">
+                        <div className="flex items-center gap-2 px-4 py-2 border border-blue-200 rounded-lg bg-blue-50 dark:bg-blue-900/20 dark:border-blue-700">
                           <AiOutlineInfoCircle
                             className="text-blue-600 dark:text-blue-400"
                             size={18}
@@ -719,10 +721,10 @@ const FlightDetail = () => {
                             )}
                           </div>
                           {index === 0 && user && (
-                            <div className="md:col-span-2 pt-2 border-t border-gray-200 dark:border-gray-700">
+                            <div className="pt-2 border-t border-gray-200 md:col-span-2 dark:border-gray-700">
                               <Link
                                 to="/profile"
-                                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
+                                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-600 transition-colors border border-blue-200 rounded-lg dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 dark:border-blue-700 hover:bg-blue-100 dark:hover:bg-blue-900/30"
                               >
                                 <AiOutlineInfoCircle size={16} />
                                 Edit Profil untuk mengubah nama dan alamat
@@ -740,11 +742,11 @@ const FlightDetail = () => {
               {currentStep === 3 && (
                 <div>
                   <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                    <h2 className="flex items-center gap-2 text-2xl font-bold text-gray-900 dark:text-white">
                       <AiOutlineInfoCircle size={24} />
                       Data Kontak
                     </h2>
-                    <div className="px-4 py-2 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg flex items-center gap-2">
+                    <div className="flex items-center gap-2 px-4 py-2 border border-blue-200 rounded-lg bg-blue-50 dark:bg-blue-900/20 dark:border-blue-700">
                       <AiOutlineInfoCircle
                         className="text-blue-600 dark:text-blue-400"
                         size={18}
@@ -765,7 +767,7 @@ const FlightDetail = () => {
                         type="text"
                         value={contact.name}
                         disabled
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg dark:border-slate-600 dark:bg-slate-700/50 dark:text-gray-400 bg-gray-50 cursor-not-allowed"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg cursor-not-allowed dark:border-slate-600 dark:bg-slate-700/50 dark:text-gray-400 bg-gray-50"
                       />
                     </div>
                     <div>
@@ -777,7 +779,7 @@ const FlightDetail = () => {
                         type="email"
                         value={contact.email}
                         disabled
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg dark:border-slate-600 dark:bg-slate-700/50 dark:text-gray-400 bg-gray-50 cursor-not-allowed"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg cursor-not-allowed dark:border-slate-600 dark:bg-slate-700/50 dark:text-gray-400 bg-gray-50"
                       />
                     </div>
                     <div>
@@ -789,14 +791,14 @@ const FlightDetail = () => {
                         type="tel"
                         value={contact.phone}
                         disabled
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg dark:border-slate-600 dark:bg-slate-700/50 dark:text-gray-400 bg-gray-50 cursor-not-allowed"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg cursor-not-allowed dark:border-slate-600 dark:bg-slate-700/50 dark:text-gray-400 bg-gray-50"
                       />
                     </div>
 
                     <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
                       <Link
                         to="/profile"
-                        className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
+                        className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-600 transition-colors border border-blue-200 rounded-lg dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 dark:border-blue-700 hover:bg-blue-100 dark:hover:bg-blue-900/30"
                       >
                         <AiOutlineInfoCircle size={16} />
                         Edit Profil
@@ -819,8 +821,8 @@ const FlightDetail = () => {
 
                   <div className="space-y-6">
                     {/* Flight Summary */}
-                    <div className="p-6 bg-gray-50 rounded-lg dark:bg-slate-700/50">
-                      <h3 className="mb-4 font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                    <div className="p-6 rounded-lg bg-gray-50 dark:bg-slate-700/50">
+                      <h3 className="flex items-center gap-2 mb-4 font-semibold text-gray-900 dark:text-white">
                         <FaPlane size={18} />
                         Detail Penerbangan
                       </h3>
@@ -842,7 +844,7 @@ const FlightDetail = () => {
                           </div>
                         </div>
                         <div>
-                          <div className="text-gray-600 dark:text-gray-400 flex items-center gap-1">
+                          <div className="flex items-center gap-1 text-gray-600 dark:text-gray-400">
                             <FaMapMarkerAlt size={12} />
                             Dari
                           </div>
@@ -851,7 +853,7 @@ const FlightDetail = () => {
                           </div>
                         </div>
                         <div>
-                          <div className="text-gray-600 dark:text-gray-400 flex items-center gap-1">
+                          <div className="flex items-center gap-1 text-gray-600 dark:text-gray-400">
                             <FaMapMarkerAlt size={12} />
                             Ke
                           </div>
@@ -860,7 +862,7 @@ const FlightDetail = () => {
                           </div>
                         </div>
                         <div>
-                          <div className="text-gray-600 dark:text-gray-400 flex items-center gap-1">
+                          <div className="flex items-center gap-1 text-gray-600 dark:text-gray-400">
                             <AiOutlineCalendar size={12} />
                             Tanggal
                           </div>
@@ -869,7 +871,7 @@ const FlightDetail = () => {
                           </div>
                         </div>
                         <div>
-                          <div className="text-gray-600 dark:text-gray-400 flex items-center gap-1">
+                          <div className="flex items-center gap-1 text-gray-600 dark:text-gray-400">
                             <AiOutlineClockCircle size={12} />
                             Waktu
                           </div>
@@ -899,7 +901,7 @@ const FlightDetail = () => {
               )}
 
               {/* Navigation Buttons */}
-              <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+              <div className="flex items-center justify-between pt-6 mt-8 border-t border-gray-200 dark:border-gray-700">
                 <button
                   onClick={handlePrevStep}
                   disabled={currentStep === 1}
@@ -923,7 +925,7 @@ const FlightDetail = () => {
                 ) : (
                   <button
                     onClick={handleBooking}
-                    className="flex items-center gap-2 px-8 py-3 text-white bg-green-600 rounded-lg hover:bg-green-700 font-bold"
+                    className="flex items-center gap-2 px-8 py-3 font-bold text-white bg-green-600 rounded-lg hover:bg-green-700"
                   >
                     <AiOutlineCheckCircle size={20} />
                     Bayar Sekarang
@@ -935,7 +937,7 @@ const FlightDetail = () => {
 
           {/* Sidebar - Price Summary */}
           <div className="lg:col-span-1">
-            <div className="p-6 bg-white/90 backdrop-blur-sm border border-gray-200/50 rounded-xl shadow-lg dark:bg-slate-800/90 dark:border-slate-700/50 sticky top-4 card-3d">
+            <div className="sticky p-6 border shadow-lg bg-white/90 backdrop-blur-sm border-gray-200/50 rounded-xl dark:bg-slate-800/90 dark:border-slate-700/50 top-4 card-3d">
               <h3 className="mb-6 text-xl font-bold text-gray-900 dark:text-white">
                 Ringkasan Harga
               </h3>

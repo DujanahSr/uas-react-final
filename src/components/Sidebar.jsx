@@ -138,7 +138,7 @@ const Sidebar = ({ role = "admin", onLogout }) => {
     <>
       {/* Mobile Toggle Button */}
       <button
-        className="fixed z-50 flex items-center gap-2 px-3 py-2 text-sm font-medium text-white transition-all duration-300 border rounded-full lg:hidden top-3 left-3 bg-gradient-to-r from-blue-600 to-blue-500 shadow-lg/70 border-white/10 hover:shadow-xl hover:scale-105"
+        className="fixed z-50 flex items-center gap-2 px-3 py-2 text-sm font-medium text-white transition-all duration-300 border rounded-full lg:hidden top-3 left-3 bg-linear-to-r from-blue-600 to-blue-500 shadow-lg/70 border-white/10 hover:shadow-xl hover:scale-105"
         onClick={() => setIsOpen(!isOpen)}
         aria-label={isOpen ? "Tutup menu navigasi" : "Buka menu navigasi"}
       >
@@ -163,7 +163,7 @@ const Sidebar = ({ role = "admin", onLogout }) => {
         className={`
           fixed lg:sticky lg:top-0 inset-y-0 left-0 z-40
           ${getSidebarWidth()}
-          bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800
+          bg-linear-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800
           shadow-2xl dark:shadow-gray-900/50
           transform transition-all duration-500 ease-in-out
           ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
@@ -178,7 +178,7 @@ const Sidebar = ({ role = "admin", onLogout }) => {
       >
         {/* Collapse Toggle Button - Desktop */}
         <button
-          className="absolute z-50 hidden p-2 text-white transition-all duration-300 transform rounded-full shadow-lg lg:flex -right-3 top-8 bg-gradient-to-r from-blue-500 to-blue-600 hover:shadow-xl hover:scale-110 hover:rotate-12"
+          className="absolute z-50 hidden p-2 text-white transition-all duration-300 transform rounded-full shadow-lg lg:flex -right-3 top-8 bg-linear-to-r from-blue-500 to-blue-600 hover:shadow-xl hover:scale-110 hover:rotate-12"
           onClick={toggleCollapse}
           aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
@@ -192,7 +192,7 @@ const Sidebar = ({ role = "admin", onLogout }) => {
         <div className="flex flex-col h-full">
           {/* Logo Section */}
           <div className="relative p-6 border-b border-gray-200/50 dark:border-gray-700/50">
-            <div className="absolute inset-0 opacity-0 bg-gradient-to-r from-blue-50/30 to-transparent dark:from-blue-900/10 animate-pulse-slow" />
+            <div className="absolute inset-0 opacity-0 bg-linear-to-r from-blue-50/30 to-transparent dark:from-blue-900/10 animate-pulse-slow" />
 
             <div className="relative z-10 flex items-center space-x-3">
               <div className="relative">
@@ -206,7 +206,7 @@ const Sidebar = ({ role = "admin", onLogout }) => {
               <div
                 className={`overflow-hidden transition-all duration-500 ${getContentClasses()}`}
               >
-                <h1 className="text-2xl font-bold text-transparent bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text">
+                <h1 className="text-2xl font-bold text-transparent bg-linear-to-r from-blue-600 to-blue-500 bg-clip-text">
                   FlyBook
                 </h1>
                 <p className="mt-1 text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap">
@@ -217,7 +217,7 @@ const Sidebar = ({ role = "admin", onLogout }) => {
 
             {adminData && (
               <div
-                className={`mt-4 p-3 bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-xl border border-blue-100 dark:border-blue-800/30 transition-all duration-500 ${getContentClasses()}`}
+                className={`mt-4 p-3 bg-linear-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-xl border border-blue-100 dark:border-blue-800/30 transition-all duration-500 ${getContentClasses()}`}
               >
                 <p className="text-xs font-medium text-blue-700 dark:text-blue-300">
                   👋 Halo, <strong>{adminData.name || adminData.email}</strong>
@@ -256,7 +256,7 @@ const Sidebar = ({ role = "admin", onLogout }) => {
                           transform transition-all duration-300 ease-out
                           ${
                             active
-                              ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg scale-[1.02]"
+                              ? "bg-linear-to-r from-blue-500 to-blue-600 text-white shadow-lg scale-[1.02]"
                               : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800/50 hover:scale-[1.02] hover:shadow-md"
                           }
                           group
@@ -292,7 +292,7 @@ const Sidebar = ({ role = "admin", onLogout }) => {
 
             {/* Quick Stats (only shown when expanded) */}
             <div
-              className={`mt-8 p-4 bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 transition-all duration-500 ${getContentClasses()}`}
+              className={`mt-8 p-4 bg-linear-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 transition-all duration-500 ${getContentClasses()}`}
             >
               <h3 className="mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
                 Statistik Hari Ini
@@ -326,13 +326,13 @@ const Sidebar = ({ role = "admin", onLogout }) => {
             <div
               className={`
               flex items-center space-x-3 p-3 rounded-xl 
-              bg-gradient-to-r from-gray-50 to-white dark:from-gray-800 dark:to-gray-900
+              bg-linear-to-r from-gray-50 to-white dark:from-gray-800 dark:to-gray-900
               hover:shadow-md transition-all duration-300
               ${getContentClasses()}
             `}
             >
               <div className="relative">
-                <div className="flex items-center justify-center w-10 h-10 rounded-full shadow-md bg-gradient-to-br from-blue-400 to-blue-600">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full shadow-md bg-linear-to-br from-blue-400 to-blue-600">
                   <AiOutlineUser size={20} className="text-white" />
                 </div>
                 <div className="absolute w-4 h-4 bg-green-400 border-2 border-white rounded-full -bottom-1 -right-1 dark:border-gray-800" />
@@ -356,7 +356,7 @@ const Sidebar = ({ role = "admin", onLogout }) => {
               }}
               className={`
                 w-full flex items-center justify-center space-x-2 px-4 py-3 
-                bg-gradient-to-r from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20
+                bg-linear-to-r from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20
                 text-red-600 dark:text-red-400 
                 rounded-xl hover:shadow-lg hover:scale-[1.02]
                 transform transition-all duration-300

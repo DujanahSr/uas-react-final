@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useMemo } from "react";
 import Header from "../../components/Header";
 import { useData } from "../../context/DataContext";
@@ -144,12 +145,12 @@ const AdminAnalytics = () => {
   }, [bookings]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/20 to-indigo-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 relative overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden bg-linear-to-br from-gray-50 via-blue-50/20 to-indigo-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-200/20 dark:bg-blue-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
+        <div className="absolute rounded-full top-20 left-10 w-72 h-72 bg-blue-200/20 dark:bg-blue-500/10 blur-3xl animate-pulse-slow"></div>
         <div
-          className="absolute bottom-20 right-10 w-96 h-96 bg-indigo-200/20 dark:bg-indigo-500/10 rounded-full blur-3xl animate-pulse-slow"
+          className="absolute rounded-full bottom-20 right-10 w-96 h-96 bg-indigo-200/20 dark:bg-indigo-500/10 blur-3xl animate-pulse-slow"
           style={{ animationDelay: "1s" }}
         ></div>
       </div>
@@ -181,7 +182,7 @@ const AdminAnalytics = () => {
 
         {/* Key Metrics */}
         <div className="grid grid-cols-1 gap-6 mb-8 md:grid-cols-2 lg:grid-cols-4">
-          <div className="p-6 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-slate-800/90 dark:border-slate-700/50">
+          <div className="p-6 bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-800/90 dark:border-slate-700/50">
             <div className="flex items-center justify-between">
               <div>
                 <div className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -195,7 +196,7 @@ const AdminAnalytics = () => {
             </div>
           </div>
 
-          <div className="p-6 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-slate-800/90 dark:border-slate-700/50">
+          <div className="p-6 bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-800/90 dark:border-slate-700/50">
             <div className="flex items-center justify-between">
               <div>
                 <div className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -209,7 +210,7 @@ const AdminAnalytics = () => {
             </div>
           </div>
 
-          <div className="p-6 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-slate-800/90 dark:border-slate-700/50">
+          <div className="p-6 bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-800/90 dark:border-slate-700/50">
             <div className="flex items-center justify-between">
               <div>
                 <div className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -223,7 +224,7 @@ const AdminAnalytics = () => {
             </div>
           </div>
 
-          <div className="p-6 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-slate-800/90 dark:border-slate-700/50">
+          <div className="p-6 bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-800/90 dark:border-slate-700/50">
             <div className="flex items-center justify-between">
               <div>
                 <div className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -241,9 +242,9 @@ const AdminAnalytics = () => {
         {/* Charts Section */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           {/* Bookings Trend */}
-          <div className="p-6 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-slate-800/90 dark:border-slate-700/50">
+          <div className="p-6 bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-800/90 dark:border-slate-700/50">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+              <h3 className="flex items-center gap-2 text-xl font-bold text-gray-900 dark:text-white">
                 <AiOutlineLineChart size={20} />
                 Trend Pemesanan (7 Hari Terakhir)
               </h3>
@@ -261,7 +262,7 @@ const AdminAnalytics = () => {
                   </div>
                   <div className="w-full h-4 bg-gray-200 rounded-full dark:bg-slate-700">
                     <div
-                      className="h-4 bg-blue-600 rounded-full transition-all"
+                      className="h-4 transition-all bg-blue-600 rounded-full"
                       style={{ width: `${(day.count / maxCount) * 100}%` }}
                     ></div>
                   </div>
@@ -271,9 +272,9 @@ const AdminAnalytics = () => {
           </div>
 
           {/* Revenue Trend */}
-          <div className="p-6 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-slate-800/90 dark:border-slate-700/50">
+          <div className="p-6 bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-800/90 dark:border-slate-700/50">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+              <h3 className="flex items-center gap-2 text-xl font-bold text-gray-900 dark:text-white">
                 <AiOutlineBarChart size={20} />
                 Trend Revenue (7 Hari Terakhir)
               </h3>
@@ -291,7 +292,7 @@ const AdminAnalytics = () => {
                   </div>
                   <div className="w-full h-4 bg-gray-200 rounded-full dark:bg-slate-700">
                     <div
-                      className="h-4 bg-green-600 rounded-full transition-all"
+                      className="h-4 transition-all bg-green-600 rounded-full"
                       style={{ width: `${(day.revenue / maxRevenue) * 100}%` }}
                     ></div>
                   </div>
@@ -303,8 +304,8 @@ const AdminAnalytics = () => {
 
         {/* Revenue by Airline */}
         <div className="grid grid-cols-1 gap-6 mt-6 lg:grid-cols-2">
-          <div className="p-6 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-slate-800/90 dark:border-slate-700/50">
-            <h3 className="mb-6 text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+          <div className="p-6 bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-800/90 dark:border-slate-700/50">
+            <h3 className="flex items-center gap-2 mb-6 text-xl font-bold text-gray-900 dark:text-white">
               <FaPlane size={20} />
               Revenue by Airline
             </h3>
@@ -359,7 +360,7 @@ const AdminAnalytics = () => {
 
                 {/* Bar Chart Container */}
                 {/* Urutan: Index 0 = revenue TERBANYAK = bar TERTINGGI, Index selanjutnya = revenue lebih sedikit = bar lebih rendah */}
-                <div className="flex items-end justify-between gap-4 h-34 mb-4 pb-4 border-b border-gray-200 dark:border-slate-700/50">
+                <div className="flex items-end justify-between gap-4 pb-4 mb-4 border-b border-gray-200 h-34 dark:border-slate-700/50">
                   {revenueByAirline.map((airline, index) => {
                     // heightPercentage adalah persentase dari revenue tertinggi
                     // Index 0 = revenue tertinggi = 100% = bar tertinggi
@@ -384,12 +385,12 @@ const AdminAnalytics = () => {
                     return (
                       <div
                         key={index}
-                        className="flex-1 flex flex-col items-center group"
+                        className="flex flex-col items-center flex-1 group"
                       >
                         {/* Bar */}
-                        <div className="relative w-full flex flex-col items-center justify-end">
+                        <div className="relative flex flex-col items-center justify-end w-full">
                           <div
-                            className="w-full rounded-t-lg transition-all duration-500 hover:shadow-xl hover:scale-105"
+                            className="w-full transition-all duration-500 rounded-t-lg hover:shadow-xl hover:scale-105"
                             style={{
                               height: `${barHeight}%`,
                               background: `linear-gradient(to top, ${colors.to}, ${colors.from})`,
@@ -409,12 +410,12 @@ const AdminAnalytics = () => {
                         </div>
                         {/* Airline Name and Revenue */}
                         <div className="mt-4 text-center">
-                          <p className="text-sm font-semibold text-gray-800 dark:text-white leading-tight mb-1">
+                          <p className="mb-1 text-sm font-semibold leading-tight text-gray-800 dark:text-white">
                             {airline.name.length > 18
                               ? airline.name.substring(0, 18) + "..."
                               : airline.name}
                           </p>
-                          <p className="text-xs text-green-600 dark:text-green-400 font-medium">
+                          <p className="text-xs font-medium text-green-600 dark:text-green-400">
                             {formatPrice(airline.revenue)}
                           </p>
                         </div>
@@ -424,9 +425,9 @@ const AdminAnalytics = () => {
                 </div>
 
                 {/* Summary Stats */}
-                <div className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-gray-200 dark:border-slate-700/50">
+                <div className="grid grid-cols-2 gap-4 pt-4 mt-4 border-t border-gray-200 dark:border-slate-700/50">
                   <div>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">
+                    <p className="mb-1 text-xs text-gray-500 dark:text-gray-400">
                       Total Revenue
                     </p>
                     <p className="text-lg font-bold text-green-600 dark:text-green-400">
@@ -436,7 +437,7 @@ const AdminAnalytics = () => {
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">
+                    <p className="mb-1 text-xs text-gray-500 dark:text-gray-400">
                       Total Bookings
                     </p>
                     <p className="text-lg font-bold text-gray-800 dark:text-white">
@@ -466,7 +467,7 @@ const AdminAnalytics = () => {
           </div>
 
           {/* Booking Status Distribution */}
-          <div className="p-6 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-slate-800/90 dark:border-slate-700/50">
+          <div className="p-6 bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-800/90 dark:border-slate-700/50">
             <h3 className="mb-6 text-xl font-bold text-gray-900 dark:text-white">
               Distribusi Status Booking
             </h3>
@@ -542,9 +543,9 @@ const AdminAnalytics = () => {
         </div>
 
         {/* Top Routes */}
-        <div className="p-6 mt-6 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-slate-800/90 dark:border-slate-700/50">
+        <div className="p-6 mt-6 bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-800/90 dark:border-slate-700/50">
           <div className="mb-6">
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+            <h3 className="flex items-center gap-2 text-xl font-bold text-gray-900 dark:text-white">
               <AiOutlineRise size={20} />
               Top Routes
             </h3>
@@ -553,13 +554,13 @@ const AdminAnalytics = () => {
             <table className="w-full">
               <thead className="bg-gray-50 dark:bg-slate-700/50">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase dark:text-gray-300">
+                  <th className="px-4 py-3 text-xs font-medium text-left text-gray-700 uppercase dark:text-gray-300">
                     Rute
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase dark:text-gray-300">
+                  <th className="px-4 py-3 text-xs font-medium text-left text-gray-700 uppercase dark:text-gray-300">
                     Bookings
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase dark:text-gray-300">
+                  <th className="px-4 py-3 text-xs font-medium text-left text-gray-700 uppercase dark:text-gray-300">
                     Revenue
                   </th>
                 </tr>

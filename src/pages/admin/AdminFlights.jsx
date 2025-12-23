@@ -526,7 +526,7 @@ const AdminFlights = () => {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-gray-50 via-blue-50/20 to-indigo-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
+    <div className="relative min-h-screen overflow-hidden bg-linear-to-br from-gray-50 via-blue-50/20 to-indigo-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute rounded-full top-20 left-10 w-72 h-72 bg-blue-200/20 dark:bg-blue-500/10 blur-3xl animate-pulse-slow"></div>
@@ -551,7 +551,7 @@ const AdminFlights = () => {
           </h2>
           <button
             onClick={handleAddFlight}
-            className="flex items-center justify-center gap-2 px-4 py-2.5 text-sm text-white transition-all duration-300 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl sm:px-6 sm:py-3"
+            className="flex items-center justify-center gap-2 px-4 py-2.5 text-sm text-white transition-all duration-300 bg-linear-to-r from-blue-600 to-indigo-600 rounded-lg hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl sm:px-6 sm:py-3"
           >
             <AiOutlinePlus size={18} />
             <span className="hidden sm:inline">Tambah Penerbangan</span>
@@ -1047,7 +1047,7 @@ const AdminFlights = () => {
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 backdrop-blur-sm">
             <div className="w-full max-w-5xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-2xl dark:bg-slate-800/90 border border-gray-200 dark:border-slate-700/50">
               {/* Modal Header */}
-              <div className="sticky top-0 z-10 flex items-center justify-between p-6 bg-gradient-to-r from-blue-600 to-blue-700 rounded-t-2xl">
+              <div className="sticky top-0 z-10 flex items-center justify-between p-6 bg-linear-to-r from-blue-600 to-blue-700 rounded-t-2xl">
                 <div className="flex items-center gap-3">
                   <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-white/20">
                     <FaPlaneDeparture size={24} className="text-white" />
@@ -1087,7 +1087,7 @@ const AdminFlights = () => {
                   </h3>
                   <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <div>
-                      <label className="flex items-center block gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="flex items-center gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         <FaPlane size={14} />
                         Nomor Penerbangan *
                       </label>
@@ -1107,7 +1107,7 @@ const AdminFlights = () => {
                     </div>
 
                     <div>
-                      <label className="flex items-center block gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="items-center block gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         <FaPlaneDeparture size={14} />
                         Maskapai *
                       </label>
@@ -1146,7 +1146,7 @@ const AdminFlights = () => {
                   </h3>
                   <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <div>
-                      <label className="flex items-center block gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="flex items-center gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         <FaPlaneDeparture size={14} />
                         Dari *
                       </label>
@@ -1189,7 +1189,7 @@ const AdminFlights = () => {
                     </div>
 
                     <div>
-                      <label className="flex items-center block gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="flex items-center gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         <FaPlaneArrival size={14} />
                         Ke *
                       </label>
@@ -1246,7 +1246,7 @@ const AdminFlights = () => {
                   </h3>
                   <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <div>
-                      <label className="flex items-center block gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="flex items-center gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         <AiOutlineCalendar size={14} />
                         Tanggal Keberangkatan *
                       </label>
@@ -1280,7 +1280,7 @@ const AdminFlights = () => {
                     </div>
 
                     <div>
-                      <label className="flex items-center block gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="flex items-center gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         <AiOutlineClockCircle size={14} />
                         Waktu Keberangkatan *
                       </label>
@@ -1312,7 +1312,7 @@ const AdminFlights = () => {
                     </div>
 
                     <div>
-                      <label className="flex items-center block gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="flex items-center gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         <AiOutlineClockCircle size={14} />
                         Waktu Kedatangan *
                       </label>
@@ -1344,7 +1344,7 @@ const AdminFlights = () => {
                     </div>
 
                     <div>
-                      <label className="flex items-center block gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="flex items-center gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         <FaPlane size={14} />
                         Durasi (contoh: 3j 30m)
                       </label>
@@ -1377,7 +1377,7 @@ const AdminFlights = () => {
                   <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                     {/* Harga Ekonomi */}
                     <div className="p-4 bg-white border border-gray-200 rounded-lg dark:bg-slate-800/90 dark:border-slate-700/50">
-                      <label className="flex items-center block gap-2 mb-3 text-sm font-semibold text-gray-700 dark:text-gray-300">
+                      <label className="flex items-center gap-2 mb-3 text-sm font-semibold text-gray-700 dark:text-gray-300">
                         <span className="px-2 py-1 text-xs font-medium text-green-700 bg-green-100 rounded dark:bg-green-900/30 dark:text-green-300">
                           Ekonomi
                         </span>
@@ -1424,7 +1424,7 @@ const AdminFlights = () => {
 
                     {/* Harga Bisnis */}
                     <div className="p-4 bg-white border border-gray-200 rounded-lg dark:bg-slate-800/90 dark:border-slate-700/50">
-                      <label className="flex items-center block gap-2 mb-3 text-sm font-semibold text-gray-700 dark:text-gray-300">
+                      <label className="flex items-center gap-2 mb-3 text-sm font-semibold text-gray-700 dark:text-gray-300">
                         <span className="px-2 py-1 text-xs font-medium text-blue-700 bg-blue-100 rounded dark:bg-blue-900/30 dark:text-blue-300">
                           Bisnis
                         </span>
@@ -1470,7 +1470,7 @@ const AdminFlights = () => {
 
                     {/* Harga First Class */}
                     <div className="p-4 bg-white border border-gray-200 rounded-lg dark:bg-slate-800/90 dark:border-slate-700/50">
-                      <label className="flex items-center block gap-2 mb-3 text-sm font-semibold text-gray-700 dark:text-gray-300">
+                      <label className="flex items-center gap-2 mb-3 text-sm font-semibold text-gray-700 dark:text-gray-300">
                         <span className="px-2 py-1 text-xs font-medium text-purple-700 bg-purple-100 rounded dark:bg-purple-900/30 dark:text-purple-300">
                           First Class
                         </span>
@@ -1527,7 +1527,7 @@ const AdminFlights = () => {
                   </h3>
                   <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <div>
-                      <label className="flex items-center block gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="flex items-center gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         <HiOutlineUserGroup size={14} />
                         Total Kursi Tersedia *
                       </label>
@@ -1566,7 +1566,7 @@ const AdminFlights = () => {
                     </div>
 
                     <div>
-                      <label className="flex items-center block gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="flex items-center gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         <AiOutlineInfoCircle size={14} />
                         Status
                       </label>
@@ -1597,7 +1597,7 @@ const AdminFlights = () => {
                 </button>
                 <button
                   onClick={handleSaveFlight}
-                  className="flex items-center gap-2 px-6 py-3 font-medium text-white transition-all rounded-lg shadow-lg bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 hover:shadow-xl"
+                  className="flex items-center gap-2 px-6 py-3 font-medium text-white transition-all rounded-lg shadow-lg bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 hover:shadow-xl"
                 >
                   <AiOutlineSave size={18} />
                   {editingFlight ? "Simpan Perubahan" : "Tambah Penerbangan"}

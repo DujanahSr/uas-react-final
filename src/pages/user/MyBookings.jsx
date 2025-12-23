@@ -107,7 +107,7 @@ const MyBookings = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/20 to-indigo-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
+    <div className="min-h-screen bg-linear-to-br from-gray-50 via-blue-50/20 to-indigo-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
       <main className="max-w-6xl px-4 py-6 mx-auto sm:px-6 lg:px-8">
         {/* Search */}
         <div
@@ -116,7 +116,7 @@ const MyBookings = () => {
         >
           <div className="relative">
             <AiOutlineSearch
-              className="absolute text-gray-400 left-3 top-1/2 transform -translate-y-1/2 dark:text-slate-500"
+              className="absolute text-gray-400 transform -translate-y-1/2 left-3 top-1/2 dark:text-slate-500"
               size={18}
             />
             <input
@@ -131,14 +131,14 @@ const MyBookings = () => {
 
         {/* Tabs */}
         <div
-          className="flex flex-wrap gap-2 mb-4 overflow-x-auto pb-2 border-b border-gray-200 dark:border-slate-700 sm:mb-6 animate-slideInUp"
+          className="flex flex-wrap gap-2 pb-2 mb-4 overflow-x-auto border-b border-gray-200 dark:border-slate-700 sm:mb-6 animate-slideInUp"
           style={{ animationDelay: "0.3s" }}
         >
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex-shrink-0 px-4 py-2.5 font-medium transition-all duration-300 border-b-2 transform hover:scale-105 active:scale-95 sm:px-6 sm:py-3 ${
+              className={`shrink-0 px-4 py-2.5 font-medium transition-all duration-300 border-b-2 transform hover:scale-105 active:scale-95 sm:px-6 sm:py-3 ${
                 activeTab === tab.id
                   ? "border-blue-600 text-blue-600 dark:text-blue-400"
                   : "border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
@@ -176,7 +176,7 @@ const MyBookings = () => {
             {!searchTerm && (
               <button
                 onClick={() => navigate("/")}
-                className="px-6 py-3 text-base font-bold text-white transition-all duration-300 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl sm:px-10 sm:py-5 sm:text-xl"
+                className="px-6 py-3 text-base font-bold text-white transition-all duration-300 transform shadow-lg bg-linear-to-r from-blue-600 to-indigo-600 rounded-xl hover:from-blue-700 hover:to-indigo-700 hover:scale-105 active:scale-95 hover:shadow-xl sm:px-10 sm:py-5 sm:text-xl"
               >
                 Cari Tiket Pesawat
               </button>
@@ -187,7 +187,7 @@ const MyBookings = () => {
             {filteredBookings.map((booking, index) => (
               <div
                 key={booking.id}
-                className="p-4 bg-white/90 backdrop-blur-sm border border-gray-200/50 rounded-xl shadow-lg dark:bg-slate-800/90 dark:border-slate-700/50 hover:shadow-xl transition-all duration-300 card-3d animate-slideInUp sm:p-6 lg:p-8"
+                className="p-4 transition-all duration-300 border shadow-lg bg-white/90 backdrop-blur-sm border-gray-200/50 rounded-xl dark:bg-slate-800/90 dark:border-slate-700/50 hover:shadow-xl card-3d animate-slideInUp sm:p-6 lg:p-8"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
@@ -240,12 +240,12 @@ const MyBookings = () => {
                                   : "Refund Ditolak"}
                               </span>
                               {booking.refundReason && (
-                                <div className="text-xs text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-slate-700/50 p-2 rounded">
+                                <div className="p-2 text-xs text-gray-600 rounded dark:text-gray-400 bg-gray-50 dark:bg-slate-700/50">
                                   <strong>Alasan:</strong> {booking.refundReason}
                                 </div>
                               )}
                               {booking.refundNote && (
-                                <div className="text-xs text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-slate-700/50 p-2 rounded">
+                                <div className="p-2 text-xs text-gray-600 rounded dark:text-gray-400 bg-gray-50 dark:bg-slate-700/50">
                                   <strong>Catatan Admin:</strong> {booking.refundNote}
                                 </div>
                               )}
@@ -254,7 +254,7 @@ const MyBookings = () => {
                       </div>
                     </div>
 
-                    <h3 className="mb-3 text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                    <h3 className="flex items-center gap-2 mb-3 text-xl font-bold text-gray-900 dark:text-white">
                       <FaPlane size={18} />
                       {booking.flightNumber} • {booking.airline}
                     </h3>
@@ -281,8 +281,8 @@ const MyBookings = () => {
                     {booking.passengers &&
                       Array.isArray(booking.passengers) &&
                       booking.passengers.length > 0 && (
-                        <div className="mt-4 p-4 bg-gray-50 rounded-lg dark:bg-slate-700/50">
-                          <div className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <div className="p-4 mt-4 rounded-lg bg-gray-50 dark:bg-slate-700/50">
+                          <div className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                             Penumpang:
                           </div>
                           <div className="space-y-1">
@@ -311,13 +311,13 @@ const MyBookings = () => {
                       </div>
                     </div>
 
-                    <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+                    <div className="flex flex-wrap w-full gap-2 sm:w-auto">
                       <button
                         onClick={() => {
                           setSelectedBooking(booking);
                           setShowDetailModal(true);
                         }}
-                        className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg dark:bg-slate-700 dark:text-gray-300 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-600 transition-all transform hover:scale-105 active:scale-95"
+                        className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 transition-all transform bg-white border border-gray-300 rounded-lg dark:bg-slate-700 dark:text-gray-300 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-600 hover:scale-105 active:scale-95"
                       >
                         <AiOutlineEye size={16} />
                         Detail
@@ -387,7 +387,7 @@ const MyBookings = () => {
           <div className="space-y-4">
             <p>Anda yakin ingin mengajukan refund untuk pemesanan ini? Admin akan meninjau permintaan Anda.</p>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                 Alasan Refund <span className="text-red-500">*</span>
               </label>
               <textarea
@@ -395,10 +395,10 @@ const MyBookings = () => {
                 onChange={(e) => setRefundReason(e.target.value)}
                 placeholder="Jelaskan alasan Anda mengajukan refund (minimal 10 karakter)"
                 rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg dark:bg-slate-700 dark:text-white dark:border-slate-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg resize-none dark:bg-slate-700 dark:text-white dark:border-slate-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 maxLength={500}
               />
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                 {refundReason.length}/500 karakter
               </p>
             </div>

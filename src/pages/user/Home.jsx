@@ -127,16 +127,16 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-indigo-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 relative overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden bg-linear-to-br from-gray-50 via-blue-50/30 to-indigo-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-200/20 dark:bg-blue-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
+        <div className="absolute rounded-full top-20 left-10 w-72 h-72 bg-blue-200/20 dark:bg-blue-500/10 blur-3xl animate-pulse-slow"></div>
         <div
-          className="absolute bottom-20 right-10 w-96 h-96 bg-indigo-200/20 dark:bg-indigo-500/10 rounded-full blur-3xl animate-pulse-slow"
+          className="absolute rounded-full bottom-20 right-10 w-96 h-96 bg-indigo-200/20 dark:bg-indigo-500/10 blur-3xl animate-pulse-slow"
           style={{ animationDelay: "1s" }}
         ></div>
         <div
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-purple-200/10 dark:bg-purple-500/5 rounded-full blur-3xl animate-pulse-slow"
+          className="absolute transform -translate-x-1/2 -translate-y-1/2 rounded-full top-1/2 left-1/2 w-125 h-125 bg-purple-200/10 dark:bg-purple-500/5 blur-3xl animate-pulse-slow"
           style={{ animationDelay: "2s" }}
         ></div>
       </div>
@@ -145,7 +145,7 @@ const Home = () => {
         {/* Hero Section */}
         <div className="mb-8 text-center sm:mb-12 animate-slideInUp">
           <h1 className="mb-4 text-4xl font-bold text-gray-900 sm:text-5xl md:text-6xl lg:text-7xl dark:text-white animate-scaleIn">
-            <span className="block mb-2 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent dark:from-blue-400 dark:via-indigo-400 dark:to-purple-400">
+            <span className="block mb-2 text-transparent bg-linear-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text dark:from-blue-400 dark:via-indigo-400 dark:to-purple-400">
               Terbang Lebih Murah,
             </span>
             <span className="block">Lebih Nyaman</span>
@@ -162,7 +162,7 @@ const Home = () => {
         {/* Booking Form */}
         <div className="max-w-6xl mx-auto mb-12 sm:mb-16 lg:mb-20">
           <div
-            className="p-6 bg-white/90 backdrop-blur-sm border border-gray-200/50 shadow-2xl dark:bg-slate-800/90 dark:border-slate-700/50 rounded-3xl sm:p-8 md:p-12 card-3d animate-slideInUp"
+            className="p-6 border shadow-2xl bg-white/90 backdrop-blur-sm border-gray-200/50 dark:bg-slate-800/90 dark:border-slate-700/50 rounded-3xl sm:p-8 md:p-12 card-3d animate-slideInUp"
             style={{ animationDelay: "0.3s" }}
           >
             <h2 className="mb-6 text-xl font-bold text-center text-gray-900 sm:text-2xl dark:text-white">
@@ -183,7 +183,7 @@ const Home = () => {
                 <div
                   key={i}
                   onClick={() => handleRouteClick(route)}
-                  className="overflow-hidden transition-all duration-500 bg-white/90 backdrop-blur-sm border border-gray-200/50 shadow-xl dark:bg-slate-800/90 dark:border-slate-700/50 rounded-2xl hover:shadow-2xl cursor-pointer card-3d animate-slideInUp"
+                  className="overflow-hidden transition-all duration-500 border shadow-xl cursor-pointer bg-white/90 backdrop-blur-sm border-gray-200/50 dark:bg-slate-800/90 dark:border-slate-700/50 rounded-2xl hover:shadow-2xl card-3d animate-slideInUp"
                   style={{
                     animationDelay: `${0.4 + i * 0.1}s`,
                     transform: `perspective(1000px) rotateY(${
@@ -191,9 +191,9 @@ const Home = () => {
                     })`,
                   }}
                 >
-                  <div className="relative flex items-center justify-center h-40 sm:h-48 bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-600 overflow-hidden">
+                  <div className="relative flex items-center justify-center h-40 overflow-hidden sm:h-48 bg-linear-to-br from-blue-500 via-indigo-600 to-purple-600">
                     <div
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer"
+                      className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent animate-shimmer"
                       style={{ backgroundSize: "200% 100%" }}
                     ></div>
                     <FaPlane
@@ -204,7 +204,7 @@ const Home = () => {
                     <div className="absolute inset-0 bg-black/10 dark:bg-black/20"></div>
                   </div>
                   <div className="p-6 text-center sm:p-8">
-                    <p className="text-xl font-bold text-gray-900 sm:text-2xl dark:text-white flex items-center justify-center gap-2 mb-2">
+                    <p className="flex items-center justify-center gap-2 mb-2 text-xl font-bold text-gray-900 sm:text-2xl dark:text-white">
                       <FaMapMarkerAlt
                         size={18}
                         className="text-blue-600 dark:text-blue-400"
@@ -214,7 +214,7 @@ const Home = () => {
                     <p className="my-2 text-base text-gray-600 sm:text-lg dark:text-gray-400">
                       <AiOutlineArrowRight className="inline animate-pulse" />
                     </p>
-                    <p className="text-xl font-bold text-gray-900 sm:text-2xl dark:text-white flex items-center justify-center gap-2 mb-4">
+                    <p className="flex items-center justify-center gap-2 mb-4 text-xl font-bold text-gray-900 sm:text-2xl dark:text-white">
                       <FaMapMarkerAlt
                         size={18}
                         className="text-blue-600 dark:text-blue-400"
@@ -229,7 +229,7 @@ const Home = () => {
                         e.stopPropagation();
                         handleRouteClick(route);
                       }}
-                      className="w-full px-6 py-3 font-medium text-white transition-all duration-300 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl hover:from-blue-700 hover:to-indigo-700 flex items-center justify-center gap-2 mx-auto transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl"
+                      className="flex items-center justify-center w-full gap-2 px-6 py-3 mx-auto font-medium text-white transition-all duration-300 transform shadow-lg bg-linear-to-r from-blue-600 to-indigo-600 rounded-xl hover:from-blue-700 hover:to-indigo-700 hover:scale-105 active:scale-95 hover:shadow-xl"
                     >
                       Cari Sekarang
                       <AiOutlineArrowRight
@@ -242,7 +242,7 @@ const Home = () => {
               ))}
             </div>
           ) : (
-            <div className="text-center py-12 animate-slideInUp">
+            <div className="py-12 text-center animate-slideInUp">
               <FaPlane
                 size={64}
                 className="mx-auto mb-4 text-gray-300 dark:text-slate-600 animate-float3D"

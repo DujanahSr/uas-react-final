@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FlightCard from "../../components/FlightCard";
@@ -136,22 +137,22 @@ const SearchResults = () => {
   const minPrice = Math.min(...flights.map((f) => f.price), 0);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/20 to-indigo-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
+    <div className="min-h-screen bg-linear-to-br from-gray-50 via-blue-50/20 to-indigo-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
       <main className="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
         {/* Actions */}
         <div className="flex flex-wrap gap-2 mb-6 sm:gap-3 sm:justify-end animate-slideInUp">
           <div className="flex flex-wrap gap-2 sm:gap-3">
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg dark:bg-slate-800 dark:text-gray-300 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-700 transition-all transform hover:scale-105 active:scale-95 sm:px-4 lg:hidden"
+              className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 transition-all transform bg-white border border-gray-300 rounded-lg dark:bg-slate-800 dark:text-gray-300 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-700 hover:scale-105 active:scale-95 sm:px-4 lg:hidden"
             >
-              <AiOutlineFilter size={16} className="sm:w-[18px] sm:h-[18px]" />
+              <AiOutlineFilter size={16} className="sm:w-4.5 sm:h-18px" />
               <span className="hidden sm:inline">Filter</span>
             </button>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="flex-1 px-3 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg dark:bg-slate-800 dark:text-gray-300 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all sm:flex-none sm:px-4"
+              className="flex-1 px-3 py-2 text-sm text-gray-700 transition-all bg-white border border-gray-300 rounded-lg dark:bg-slate-800 dark:text-gray-300 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:flex-none sm:px-4"
             >
               <option value="price-asc">Harga Terendah</option>
               <option value="price-desc">Harga Tertinggi</option>
@@ -169,15 +170,15 @@ const SearchResults = () => {
               showFilters ? "block" : "hidden lg:block"
             } animate-slideInLeft`}
           >
-            <div className="p-4 bg-white/90 backdrop-blur-sm border border-gray-200/50 rounded-xl shadow-lg dark:bg-slate-800/90 dark:border-slate-700/50 sticky top-4 card-3d sm:p-6">
+            <div className="sticky p-4 border shadow-lg bg-white/90 backdrop-blur-sm border-gray-200/50 rounded-xl dark:bg-slate-800/90 dark:border-slate-700/50 top-4 card-3d sm:p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                <h2 className="flex items-center gap-2 text-lg font-bold text-gray-900 dark:text-white">
                   <AiOutlineFilter size={20} />
                   Filter
                 </h2>
                 <button
                   onClick={() => setShowFilters(false)}
-                  className="lg:hidden text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                  className="text-gray-500 lg:hidden hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
                 >
                   <AiOutlineClose size={20} />
                 </button>
@@ -186,7 +187,7 @@ const SearchResults = () => {
               <div className="space-y-6">
                 {/* Harga */}
                 <div>
-                  <label className="block mb-3 text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
+                  <label className="flex items-center gap-2 mb-3 text-sm font-medium text-gray-700 dark:text-gray-300">
                     <AiOutlineDollarCircle size={16} />
                     Harga
                   </label>
@@ -224,7 +225,7 @@ const SearchResults = () => {
 
                 {/* Maskapai */}
                 <div>
-                  <label className="block mb-3 text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
+                  <label className="flex items-center gap-2 mb-3 text-sm font-medium text-gray-700 dark:text-gray-300">
                     <FaPlane size={16} />
                     Maskapai
                   </label>
@@ -246,7 +247,7 @@ const SearchResults = () => {
 
                 {/* Waktu Keberangkatan */}
                 <div>
-                  <label className="block mb-3 text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
+                  <label className="flex items-center gap-2 mb-3 text-sm font-medium text-gray-700 dark:text-gray-300">
                     <AiOutlineClockCircle size={16} />
                     Waktu Keberangkatan
                   </label>
@@ -267,7 +268,7 @@ const SearchResults = () => {
 
                 {/* Durasi */}
                 <div>
-                  <label className="block mb-3 text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
+                  <label className="flex items-center gap-2 mb-3 text-sm font-medium text-gray-700 dark:text-gray-300">
                     <AiOutlineClockCircle size={16} />
                     Durasi Maksimal
                   </label>
@@ -289,7 +290,7 @@ const SearchResults = () => {
                 {/* Clear Filters */}
                 <button
                   onClick={clearFilters}
-                  className="w-full px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-lg dark:bg-slate-700 dark:text-gray-300 dark:border-slate-600 hover:bg-gray-200 dark:hover:bg-slate-600 transition-all transform hover:scale-105 active:scale-95"
+                  className="w-full px-4 py-2 text-sm font-medium text-gray-700 transition-all transform bg-gray-100 border border-gray-300 rounded-lg dark:bg-slate-700 dark:text-gray-300 dark:border-slate-600 hover:bg-gray-200 dark:hover:bg-slate-600 hover:scale-105 active:scale-95"
                 >
                   Reset Filter
                 </button>
@@ -313,7 +314,7 @@ const SearchResults = () => {
                 </p>
                 <button
                   onClick={() => navigate("/")}
-                  className="px-6 py-3 text-base font-medium text-white transition-all duration-300 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl sm:px-8 sm:py-4 sm:text-lg"
+                  className="px-6 py-3 text-base font-medium text-white transition-all duration-300 transform shadow-lg bg-linear-to-r from-blue-600 to-indigo-600 rounded-xl hover:from-blue-700 hover:to-indigo-700 hover:scale-105 active:scale-95 hover:shadow-xl sm:px-8 sm:py-4 sm:text-lg"
                 >
                   Cari Lagi
                 </button>
@@ -337,7 +338,7 @@ const SearchResults = () => {
 
                 {/* Pagination */}
                 {totalPages > 1 && (
-                  <div className="flex flex-col items-center justify-between gap-4 mt-8 pt-6 border-t border-gray-200 dark:border-gray-700 sm:flex-row">
+                  <div className="flex flex-col items-center justify-between gap-4 pt-6 mt-8 border-t border-gray-200 dark:border-gray-700 sm:flex-row">
                     <div className="text-sm text-gray-600 dark:text-gray-400">
                       Menampilkan{" "}
                       <strong className="text-gray-900 dark:text-white">

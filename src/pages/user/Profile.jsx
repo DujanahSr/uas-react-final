@@ -97,7 +97,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/20 to-indigo-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
+    <div className="min-h-screen bg-linear-to-br from-gray-50 via-blue-50/20 to-indigo-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
       <main className="max-w-4xl px-4 py-6 mx-auto sm:px-6 lg:px-8">
         <div
           className="p-4 border shadow-lg bg-white/90 backdrop-blur-sm border-gray-200/50 rounded-xl dark:bg-slate-800/90 dark:border-slate-700/50 card-3d animate-slideInUp sm:p-6 lg:p-8"
@@ -110,9 +110,9 @@ const Profile = () => {
             {!isEditing ? (
               <button
                 onClick={() => setIsEditing(true)}
-                className="flex items-center justify-center gap-2 px-4 py-2 text-sm text-white transition-all duration-300 transform rounded-lg shadow-lg bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 hover:scale-105 active:scale-95 hover:shadow-xl sm:text-base"
+                className="flex items-center justify-center gap-2 px-4 py-2 text-sm text-white transition-all duration-300 transform rounded-lg shadow-lg bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 hover:scale-105 active:scale-95 hover:shadow-xl sm:text-base"
               >
-                <AiOutlineEdit size={16} className="sm:w-[18px] sm:h-[18px]" />
+                <AiOutlineEdit size={16} className="sm:w-4.5 sm:h-4.5" />
                 Edit Profil
               </button>
             ) : (
@@ -123,17 +123,17 @@ const Profile = () => {
                 >
                   <AiOutlineClose
                     size={16}
-                    className="sm:w-[18px] sm:h-[18px]"
+                    className="sm:w-4.5 sm:h-4.5"
                   />
                   Batal
                 </button>
                 <button
                   onClick={handleSave}
-                  className="flex items-center justify-center gap-2 px-3 py-2 text-sm text-white transition-all duration-300 transform rounded-lg shadow-lg bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 hover:scale-105 active:scale-95 hover:shadow-xl sm:px-4"
+                  className="flex items-center justify-center gap-2 px-3 py-2 text-sm text-white transition-all duration-300 transform rounded-lg shadow-lg bg-linear-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 hover:scale-105 active:scale-95 hover:shadow-xl sm:px-4"
                 >
                   <AiOutlineSave
                     size={16}
-                    className="sm:w-[18px] sm:h-[18px]"
+                    className="sm:w-4.5 sm:h-4.5"
                   />
                   Simpan
                 </button>

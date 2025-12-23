@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from "react";
 import Header from "../../components/Header";
 import { useAuth } from "../../context/AuthContext";
@@ -357,12 +358,12 @@ const AdminSettings = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/20 to-indigo-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 relative overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden bg-linear-to-br from-gray-50 via-blue-50/20 to-indigo-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-200/20 dark:bg-blue-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
+        <div className="absolute rounded-full top-20 left-10 w-72 h-72 bg-blue-200/20 dark:bg-blue-500/10 blur-3xl animate-pulse-slow"></div>
         <div
-          className="absolute bottom-20 right-10 w-96 h-96 bg-indigo-200/20 dark:bg-indigo-500/10 rounded-full blur-3xl animate-pulse-slow"
+          className="absolute rounded-full bottom-20 right-10 w-96 h-96 bg-indigo-200/20 dark:bg-indigo-500/10 blur-3xl animate-pulse-slow"
           style={{ animationDelay: "1s" }}
         ></div>
       </div>
@@ -376,7 +377,7 @@ const AdminSettings = () => {
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
           {/* Sidebar Tabs */}
           <div className="lg:col-span-1">
-            <div className="p-4 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-slate-800/90 dark:border-slate-700/50">
+            <div className="p-4 bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-800/90 dark:border-slate-700/50">
               <h3 className="mb-4 text-lg font-bold text-gray-900 dark:text-white">
                 Menu Pengaturan
               </h3>
@@ -406,8 +407,8 @@ const AdminSettings = () => {
           <div className="lg:col-span-3">
             {/* Ganti Password */}
             {activeTab === "password" && (
-              <div className="p-6 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-slate-800/90 dark:border-slate-700/50">
-                <h3 className="mb-6 text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+              <div className="p-6 bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-800/90 dark:border-slate-700/50">
+                <h3 className="flex items-center gap-2 mb-6 text-xl font-bold text-gray-900 dark:text-white">
                   <AiOutlineLock size={20} />
                   Ganti Password Admin
                 </h3>
@@ -438,7 +439,7 @@ const AdminSettings = () => {
                             current: !prev.current,
                           }))
                         }
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:text-gray-400"
+                        className="absolute text-gray-500 transform -translate-y-1/2 right-3 top-1/2 hover:text-gray-700 dark:text-gray-400"
                       >
                         {showPasswords.current ? (
                           <AiOutlineEyeInvisible size={20} />
@@ -471,7 +472,7 @@ const AdminSettings = () => {
                             new: !prev.new,
                           }))
                         }
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:text-gray-400"
+                        className="absolute text-gray-500 transform -translate-y-1/2 right-3 top-1/2 hover:text-gray-700 dark:text-gray-400"
                       >
                         {showPasswords.new ? (
                           <AiOutlineEyeInvisible size={20} />
@@ -507,7 +508,7 @@ const AdminSettings = () => {
                             confirm: !prev.confirm,
                           }))
                         }
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:text-gray-400"
+                        className="absolute text-gray-500 transform -translate-y-1/2 right-3 top-1/2 hover:text-gray-700 dark:text-gray-400"
                       >
                         {showPasswords.confirm ? (
                           <AiOutlineEyeInvisible size={20} />
@@ -520,7 +521,7 @@ const AdminSettings = () => {
 
                   <button
                     onClick={handleChangePassword}
-                    className="w-full flex items-center justify-center gap-2 px-6 py-3 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+                    className="flex items-center justify-center w-full gap-2 px-6 py-3 text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700"
                   >
                     <AiOutlineSave size={18} />
                     Ubah Password
@@ -531,8 +532,8 @@ const AdminSettings = () => {
 
             {/* Pengaturan Tampilan */}
             {activeTab === "display" && (
-              <div className="p-6 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-slate-800/90 dark:border-slate-700/50">
-                <h3 className="mb-6 text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+              <div className="p-6 bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-800/90 dark:border-slate-700/50">
+                <h3 className="flex items-center gap-2 mb-6 text-xl font-bold text-gray-900 dark:text-white">
                   <AiOutlineSetting size={20} />
                   Pengaturan Tampilan
                 </h3>
@@ -620,7 +621,7 @@ const AdminSettings = () => {
 
                   <button
                     onClick={handleSaveDisplaySettings}
-                    className="w-full flex items-center justify-center gap-2 px-6 py-3 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+                    className="flex items-center justify-center w-full gap-2 px-6 py-3 text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700"
                   >
                     <AiOutlineSave size={18} />
                     Simpan Pengaturan Tampilan
@@ -631,8 +632,8 @@ const AdminSettings = () => {
 
             {/* Format Data */}
             {activeTab === "format" && (
-              <div className="p-6 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-slate-800/90 dark:border-slate-700/50">
-                <h3 className="mb-6 text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+              <div className="p-6 bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-800/90 dark:border-slate-700/50">
+                <h3 className="flex items-center gap-2 mb-6 text-xl font-bold text-gray-900 dark:text-white">
                   <AiOutlineFileText size={20} />
                   Pengaturan Format Data
                 </h3>
@@ -684,7 +685,7 @@ const AdminSettings = () => {
 
                   <button
                     onClick={handleSaveFormatSettings}
-                    className="w-full flex items-center justify-center gap-2 px-6 py-3 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+                    className="flex items-center justify-center w-full gap-2 px-6 py-3 text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700"
                   >
                     <AiOutlineSave size={18} />
                     Simpan Pengaturan Format
@@ -696,15 +697,15 @@ const AdminSettings = () => {
             {/* Backup & Restore */}
             {activeTab === "backup" && (
               <div className="space-y-6">
-                <div className="p-6 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-slate-800/90 dark:border-slate-700/50">
-                  <h3 className="mb-6 text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                <div className="p-6 bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-800/90 dark:border-slate-700/50">
+                  <h3 className="flex items-center gap-2 mb-6 text-xl font-bold text-gray-900 dark:text-white">
                     <AiOutlineDatabase size={20} />
                     Backup & Restore Data
                   </h3>
 
                   <div className="space-y-4">
                     <div className="p-4 border border-gray-200 rounded-lg dark:border-slate-700/50">
-                      <h4 className="mb-2 font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                      <h4 className="flex items-center gap-2 mb-2 font-semibold text-gray-900 dark:text-white">
                         <AiOutlineDownload size={18} />
                         Export Data
                       </h4>
@@ -714,7 +715,7 @@ const AdminSettings = () => {
                       </p>
                       <button
                         onClick={handleExportData}
-                        className="flex items-center gap-2 px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-700 transition-colors"
+                        className="flex items-center gap-2 px-4 py-2 text-white transition-colors bg-green-600 rounded-lg hover:bg-green-700"
                       >
                         <AiOutlineDownload size={18} />
                         Export Data
@@ -722,14 +723,14 @@ const AdminSettings = () => {
                     </div>
 
                     <div className="p-4 border border-gray-200 rounded-lg dark:border-slate-700/50">
-                      <h4 className="mb-2 font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                      <h4 className="flex items-center gap-2 mb-2 font-semibold text-gray-900 dark:text-white">
                         <AiOutlineUpload size={18} />
                         Import Data
                       </h4>
                       <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">
                         Impor data dari file JSON (akan mengganti data yang ada)
                       </p>
-                      <label className="flex items-center gap-2 px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors cursor-pointer">
+                      <label className="flex items-center gap-2 px-4 py-2 text-white transition-colors bg-blue-600 rounded-lg cursor-pointer hover:bg-blue-700">
                         <AiOutlineUpload size={18} />
                         Pilih File JSON
                         <input
@@ -742,7 +743,7 @@ const AdminSettings = () => {
                     </div>
 
                     <div className="p-4 border border-red-200 rounded-lg dark:border-red-800 bg-red-50 dark:bg-red-900/20">
-                      <h4 className="mb-2 font-semibold text-red-900 dark:text-red-300 flex items-center gap-2">
+                      <h4 className="flex items-center gap-2 mb-2 font-semibold text-red-900 dark:text-red-300">
                         <AiOutlineReload size={18} />
                         Reset Data
                       </h4>
@@ -751,7 +752,7 @@ const AdminSettings = () => {
                       </p>
                       <button
                         onClick={handleResetData}
-                        className="flex items-center gap-2 px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors"
+                        className="flex items-center gap-2 px-4 py-2 text-white transition-colors bg-red-600 rounded-lg hover:bg-red-700"
                       >
                         <AiOutlineReload size={18} />
                         Reset Data
@@ -764,14 +765,14 @@ const AdminSettings = () => {
 
             {/* Informasi Sistem */}
             {activeTab === "info" && (
-              <div className="p-6 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-slate-800/90 dark:border-slate-700/50">
-                <h3 className="mb-6 text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+              <div className="p-6 bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-800/90 dark:border-slate-700/50">
+                <h3 className="flex items-center gap-2 mb-6 text-xl font-bold text-gray-900 dark:text-white">
                   <AiFillInfoCircle size={20} />
                   Informasi Sistem
                 </h3>
 
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                  <div className="p-4 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                  <div className="p-4 border border-blue-200 rounded-lg bg-linear-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 dark:border-blue-800">
                     <div className="flex items-center gap-3 mb-2">
                       <FaPlane
                         size={24}
@@ -786,7 +787,7 @@ const AdminSettings = () => {
                     </p>
                   </div>
 
-                  <div className="p-4 bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 border border-green-200 dark:border-green-800 rounded-lg">
+                  <div className="p-4 border border-green-200 rounded-lg bg-linear-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 dark:border-green-800">
                     <div className="flex items-center gap-3 mb-2">
                       <FaFileAlt
                         size={24}
@@ -801,7 +802,7 @@ const AdminSettings = () => {
                     </p>
                   </div>
 
-                  <div className="p-4 bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 border border-purple-200 dark:border-purple-800 rounded-lg">
+                  <div className="p-4 border border-purple-200 rounded-lg bg-linear-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 dark:border-purple-800">
                     <div className="flex items-center gap-3 mb-2">
                       <FaUsers
                         size={24}
@@ -816,7 +817,7 @@ const AdminSettings = () => {
                     </p>
                   </div>
 
-                  <div className="p-4 bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 border border-orange-200 dark:border-orange-800 rounded-lg">
+                  <div className="p-4 border border-orange-200 rounded-lg bg-linear-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 dark:border-orange-800">
                     <div className="flex items-center gap-3 mb-2">
                       <AiFillInfoCircle
                         size={24}
@@ -832,7 +833,7 @@ const AdminSettings = () => {
                   </div>
                 </div>
 
-                <div className="mt-6 p-4 bg-gray-50 dark:bg-slate-700/50 rounded-lg">
+                <div className="p-4 mt-6 rounded-lg bg-gray-50 dark:bg-slate-700/50">
                   <h4 className="mb-3 font-semibold text-gray-900 dark:text-white">
                     Detail Sistem
                   </h4>
