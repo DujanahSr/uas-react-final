@@ -39,11 +39,11 @@ func LoadConfig() *Config {
 
 	dbHost := os.Getenv("DB_HOST")
 	if dbHost == "" {
-		dbHost = "localhost"
+		dbHost = "127.0.0.1"
 	}
 	dbPort := os.Getenv("DB_PORT")
 	if dbPort == "" {
-		dbPort = "5432"
+		dbPort = "5433"
 	}
 	dbUser := os.Getenv("DB_USER")
 	if dbUser == "" {

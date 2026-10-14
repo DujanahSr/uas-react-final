@@ -8,8 +8,12 @@ import (
 	"time"
 
 	"flybook-server/internal/config"
+	httpDelivery "flybook-server/internal/delivery/http"
 	"flybook-server/internal/delivery/middleware"
+	mongoRepo "flybook-server/internal/repository/mongo"
 	"flybook-server/internal/repository/postgres"
+	redisRepo "flybook-server/internal/repository/redis"
+	"flybook-server/internal/usecase"
 	"flybook-server/pkg/logger"
 
 	"github.com/gin-gonic/gin"
@@ -42,7 +46,15 @@ func main() {
 		logger.Error("⚠️ Seeder failed", zap.Error(err))
 	}
 
-	// 4. Setup Gin HTTP Engine
+	// 4. Initialize Dependency Injection (Repositories -> Usecases -> Handlers)
+	flightRepo := postgres.NewFlightRepository(dbManager.Postgres)
+	layoutRepo := mongoRepo.NewLayoutRepository(dbManager.MongoDB)
+	seatLockRepo := redisRepo.NewSeatLockRepository(dbManager.Redis)
+
+	flightUsecase := usecase.NewFlightUsecase(flightRepo, layoutRepo, seatLockRepo)
+	flightHandler := httpDelivery.NewFlightHandler(flightUsecase)
+
+	// 5. Setup Gin HTTP Engine
 	if cfg.AppEnv == "production" {
 		gin.SetMode(gin.ReleaseMode)
 	}
@@ -52,7 +64,7 @@ func main() {
 	// Custom Prometheus & Traffic Metrics Middleware
 	router.Use(middleware.PrometheusMetricsMiddleware())
 
-	// CORS Middleware
+	// Global CORS Middleware
 	router.Use(func(c *gin.Context) {
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
@@ -67,42 +79,63 @@ func main() {
 		c.Next()
 	})
 
-	// 5. Expose Metrics for Prometheus
+	// 6. Prometheus Metrics Endpoint
 	router.GET("/metrics", gin.WrapH(promhttp.Handler()))
 
-	// 6. Comprehensive Health Check Endpoint
-	router.GET("/api/v1/health", func(c *gin.Context) {
-		ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
-		defer cancel()
+	// 7. Base API v1 Routes
+	v1 := router.Group("/api/v1")
+	{
+		// Health Check
+		v1.GET("/health", func(c *gin.Context) {
+			ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+			defer cancel()
 
-		sqlDB, _ := dbManager.Postgres.DB()
-		pgStatus := "healthy"
-		if err := sqlDB.Ping(); err != nil {
-			pgStatus = "unreachable: " + err.Error()
-		}
+			sqlDB, _ := dbManager.Postgres.DB()
+			pgStatus := "healthy"
+			if err := sqlDB.Ping(); err != nil {
+				pgStatus = "unreachable: " + err.Error()
+			}
 
-		mongoStatus := "healthy"
-		if err := dbManager.MongoClient.Ping(ctx, nil); err != nil {
-			mongoStatus = "unreachable: " + err.Error()
-		}
+			mongoStatus := "healthy"
+			if err := dbManager.MongoClient.Ping(ctx, nil); err != nil {
+				mongoStatus = "unreachable: " + err.Error()
+			}
 
-		redisStatus := "healthy"
-		if err := dbManager.Redis.Ping(ctx).Err(); err != nil {
-			redisStatus = "unreachable: " + err.Error()
-		}
+			redisStatus := "healthy"
+			if err := dbManager.Redis.Ping(ctx).Err(); err != nil {
+				redisStatus = "unreachable: " + err.Error()
+			}
 
-		c.JSON(http.StatusOK, gin.H{
-			"status":  "success",
-			"message": "FlyBook Enterprise API is running",
-			"version": "1.0.0",
-			"databases": gin.H{
-				"postgres": pgStatus,
-				"mongodb":  mongoStatus,
-				"redis":    redisStatus,
-			},
-			"timestamp": time.Now().UTC().Format(time.RFC3339),
+			c.JSON(http.StatusOK, gin.H{
+				"status":  "success",
+				"message": "FlyBook Enterprise API is running",
+				"version": "1.0.0",
+				"databases": gin.H{
+					"postgres": pgStatus,
+					"mongodb":  mongoStatus,
+					"redis":    redisStatus,
+				},
+				"timestamp": time.Now().UTC().Format(time.RFC3339),
+			})
 		})
-	})
+
+		// Flights & Seat Map Endpoints
+		flightsGroup := v1.Group("/flights")
+		{
+			flightsGroup.GET("", flightHandler.SearchFlights)
+			flightsGroup.GET("/:id", flightHandler.GetFlightByID)
+			flightsGroup.GET("/:id/seats", flightHandler.GetSeatMap)
+
+			// Idempotent Seat Locking (15-Minute Redis Distributed Lock)
+			flightsGroup.POST("/:id/seats/lock",
+				middleware.IdempotencyMiddleware(dbManager.Redis, 15*time.Minute),
+				flightHandler.LockSeat,
+			)
+
+			// Seat Release / Unlock
+			flightsGroup.POST("/:id/seats/unlock", flightHandler.UnlockSeat)
+		}
+	}
 
 	addr := fmt.Sprintf(":%s", cfg.AppPort)
 	logger.Info(fmt.Sprintf("🚀 Server successfully listening at http://localhost%s", addr))
