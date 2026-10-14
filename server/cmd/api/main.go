@@ -14,6 +14,7 @@ import (
 	"flybook-server/internal/repository/postgres"
 	redisRepo "flybook-server/internal/repository/redis"
 	"flybook-server/internal/usecase"
+	"flybook-server/internal/worker"
 	"flybook-server/pkg/logger"
 
 	"github.com/gin-gonic/gin"
@@ -46,15 +47,27 @@ func main() {
 		logger.Error("⚠️ Seeder failed", zap.Error(err))
 	}
 
-	// 4. Initialize Dependency Injection (Repositories -> Usecases -> Handlers)
+	// 4. Initialize Repositories
+	userRepo := postgres.NewUserRepository(dbManager.Postgres)
 	flightRepo := postgres.NewFlightRepository(dbManager.Postgres)
+	bookingRepo := postgres.NewBookingRepository(dbManager.Postgres)
 	layoutRepo := mongoRepo.NewLayoutRepository(dbManager.MongoDB)
 	seatLockRepo := redisRepo.NewSeatLockRepository(dbManager.Redis)
 
+	// 5. Initialize Usecases
+	authUsecase := usecase.NewAuthUsecase(userRepo, cfg.JWTSecret)
 	flightUsecase := usecase.NewFlightUsecase(flightRepo, layoutRepo, seatLockRepo)
-	flightHandler := httpDelivery.NewFlightHandler(flightUsecase)
+	bookingUsecase := usecase.NewBookingUsecase(bookingRepo, flightRepo, seatLockRepo)
 
-	// 5. Setup Gin HTTP Engine
+	// 6. Initialize HTTP Handlers
+	authHandler := httpDelivery.NewAuthHandler(authUsecase)
+	flightHandler := httpDelivery.NewFlightHandler(flightUsecase)
+	bookingHandler := httpDelivery.NewBookingHandler(bookingUsecase)
+
+	// 7. Start Background Asynchronous Worker (Ticket Auto-Cancellation)
+	worker.StartBookingCleanerWorker(context.Background(), bookingUsecase, 30*time.Second)
+
+	// 8. Setup Gin HTTP Engine
 	if cfg.AppEnv == "production" {
 		gin.SetMode(gin.ReleaseMode)
 	}
@@ -79,10 +92,10 @@ func main() {
 		c.Next()
 	})
 
-	// 6. Prometheus Metrics Endpoint
+	// 9. Prometheus Metrics Endpoint
 	router.GET("/metrics", gin.WrapH(promhttp.Handler()))
 
-	// 7. Base API v1 Routes
+	// 10. Base API v1 Routes
 	v1 := router.Group("/api/v1")
 	{
 		// Health Check
@@ -119,6 +132,14 @@ func main() {
 			})
 		})
 
+		// Authentication Routes
+		authGroup := v1.Group("/auth")
+		{
+			authGroup.POST("/register", authHandler.Register)
+			authGroup.POST("/login", authHandler.Login)
+			authGroup.GET("/me", middleware.JWTAuthMiddleware(cfg.JWTSecret), authHandler.GetMe)
+		}
+
 		// Flights & Seat Map Endpoints
 		flightsGroup := v1.Group("/flights")
 		{
@@ -135,6 +156,21 @@ func main() {
 			// Seat Release / Unlock
 			flightsGroup.POST("/:id/seats/unlock", flightHandler.UnlockSeat)
 		}
+
+		// Bookings Endpoints (Protected with JWT)
+		bookingsGroup := v1.Group("/bookings")
+		bookingsGroup.Use(middleware.JWTAuthMiddleware(cfg.JWTSecret))
+		{
+			bookingsGroup.POST("",
+				middleware.IdempotencyMiddleware(dbManager.Redis, 15*time.Minute),
+				bookingHandler.CreateBooking,
+			)
+			bookingsGroup.GET("/my", bookingHandler.GetMyBookings)
+			bookingsGroup.GET("/:id", bookingHandler.GetBookingDetail)
+		}
+
+		// Payment Webhook (Public Callback)
+		v1.POST("/payments/webhook", bookingHandler.PaymentWebhook)
 	}
 
 	addr := fmt.Sprintf(":%s", cfg.AppPort)
