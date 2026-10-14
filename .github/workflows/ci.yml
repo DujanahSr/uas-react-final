@@ -36,6 +36,9 @@ jobs:
       - name: Run Unit Tests with Coverage
         run: go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
 
+      - name: Verify Multi-Stage Docker Build
+        run: docker build -t flybook-server:ci .
+
   # -------------------------------------------------------------
   # Job 2: Lint & Build Frontend (React + Vite)
   # -------------------------------------------------------------

@@ -1,172 +1,197 @@
-# ✈️ FlyBook - Aplikasi Booking Tiket Pesawat
+# 🛫 FlyBook - Enterprise High-Concurrency Flight Booking Platform
 
-[![React](https://img.shields.io/badge/React-18.2.0-blue.svg)](https://reactjs.org/)
-[![Vite](https://img.shields.io/badge/Vite-5.0.0-646CFF.svg)](https://vitejs.dev/)
-[![PNPM](https://img.shields.io/badge/PNPM-8.0.0-F69220.svg)](https://pnpm.io/)
-[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.3.0-38B2AC.svg)](https://tailwindcss.com/)
+[![Go Version](https://img.shields.io/badge/Go-1.23+-00ADD8.svg?style=flat&logo=go)](https://go.dev/)
+[![Gin Gonic](https://img.shields.io/badge/Gin-v1.10.0-008080.svg?style=flat&logo=gin)](https://gin-gonic.com/)
+[![React](https://img.shields.io/badge/React-19.2-61DAFB.svg?style=flat&logo=react)](https://react.dev/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791.svg?style=flat&logo=postgresql)](https://www.postgresql.org/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-7.0-47A248.svg?style=flat&logo=mongodb)](https://www.mongodb.com/)
+[![Redis](https://img.shields.io/badge/Redis-7.0-DC382D.svg?style=flat&logo=redis)](https://redis.io/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg?style=flat&logo=docker)](https://www.docker.com/)
+[![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-2088FF.svg?style=flat&logo=githubactions)](https://github.com/DujanahSr/uas-react-final/actions)
 
-> Platform booking tiket pesawat modern dengan antarmuka yang intuitif dan fitur lengkap untuk pengguna dan administrator.
+> **FlyBook** adalah platform pemesanan tiket pesawat skala enterprise yang dibangun dengan backend performa tinggi **Golang (Gin)** dan frontend modern **React 19**. Dirancang khusus untuk menangani skenario dunia nyata yang kompleks: transaksi konkuren tinggi (high-concurrency), pencegahan overbooking kursi dengan **Distributed Locking (Redis)**, validasi **Idempotency Key**, serta arsitektur database **Polyglot Persistence**.
 
-## 📋 Deskripsi
+---
 
-FlyBook adalah aplikasi web booking tiket pesawat yang dibangun dengan teknologi React dan Vite. Aplikasi ini menyediakan pengalaman booking yang mudah dan aman dengan fitur-fitur lengkap untuk pengguna biasa dan panel administrasi yang powerful.
+## 🏛️ Arsitektur Sistem & Alur Transaksi
 
-### 🎯 Tujuan Aplikasi
-- Memudahkan pengguna dalam mencari dan membooking tiket pesawat
-- Menyediakan platform yang aman dan terpercaya untuk transaksi penerbangan
-- Memberikan kontrol penuh kepada admin untuk mengelola sistem
-- Menawarkan pengalaman user yang modern dan responsif
+```mermaid
+flowchart TD
+    User["👤 Customer (React 19 Client)"]
+    Gateway["🌐 Gin HTTP Router & Middleware\n(Prometheus / JWT / Idempotency / CORS)"]
+    
+    subgraph Core Engine ["⚡ Concurrency & Booking Engine"]
+        SeatLocker["🔒 Redis Distributed Lock\n(SET NX EX 900 - 15 Mins TTL)"]
+        ACID["🛡️ PostgreSQL Transaction\n(Pessimistic Row Lock: SELECT ... FOR UPDATE)"]
+        LayoutService["📐 MongoDB Cabin Layout Service\n(Aisle, Columns, Pitch, Class Breakdown)"]
+    end
+    
+    subgraph Background Workers ["🕒 Asynchronous Goroutines"]
+        Cleaner["🧹 Ticket Auto-Cleaner Worker\n(Runs every 30s: Cancel Unpaid & Free Seats)"]
+    end
 
-## 🚀 Fitur-Fitur Utama
-
-### 👤 **Fitur untuk Pengguna (User)**
-
-#### 🔍 **Pencarian & Booking**
-- **Pencarian Penerbangan**: Cari penerbangan berdasarkan rute, tanggal, dan jumlah penumpang
-- **Filter & Sorting**: Filter berdasarkan maskapai, harga, durasi, dan waktu keberangkatan
-- **Detail Penerbangan**: Informasi lengkap tentang penerbangan termasuk fasilitas dan harga
-- **Multi-Class Booking**: Pilih kelas Economy, Business, atau First Class
-
-#### 📋 **Manajemen Booking**
-- **Riwayat Pemesanan**: Lihat semua booking dengan status real-time
-- **Detail Booking**: Informasi lengkap booking termasuk E-Ticket
-- **Update Profil**: Kelola informasi pribadi dan preferensi
-- **Refund System**: Ajukan refund dengan alasan yang jelas
-
-#### 🔐 **Keamanan & Autentikasi**
-- **Login/Register**: Sistem autentikasi yang aman
-- **Session Management**: Manajemen sesi yang terproteksi
-- **Password Recovery**: Fitur pemulihan password (simulasi)
-
-### 👨‍💼 **Fitur untuk Administrator (Admin)**
-
-#### 📊 **Dashboard & Analytics**
-- **Dashboard Overview**: Statistik real-time pemesanan dan penerbangan
-- **Revenue Analytics**: Analisis pendapatan dan performa
-- **Booking Trends**: Tren pemesanan dan pola pengguna
-
-#### ✈️ **Manajemen Penerbangan**
-- **CRUD Penerbangan**: Tambah, edit, hapus, dan lihat penerbangan
-- **Flight Details**: Informasi lengkap penerbangan dengan fasilitas
-- **Bulk Operations**: Operasi massal untuk efisiensi
-
-#### 📋 **Manajemen Booking**
-- **Booking Oversight**: Pantau semua pemesanan
-- **Status Management**: Update status booking (Pending → Confirmed → Completed)
-- **Refund Processing**: Approve/reject permintaan refund dengan alasan
-- **Customer Support**: Alat bantu layanan pelanggan
-
-#### ⚙️ **Pengaturan Sistem**
-- **Display Settings**: Konfigurasi tampilan dan pagination
-- **Format Settings**: Pengaturan mata uang dan format tanggal
-- **Password Management**: Ganti password admin
-- **Data Backup/Restore**: Backup dan restore data sistem
-
-### 🎨 **Fitur UI/UX**
-
-#### 🌙 **Tema & Desain**
-- **Dark/Light Mode**: Dukungan tema gelap dan terang
-- **Responsive Design**: Optimal di desktop, tablet, dan mobile
-- **Modern UI**: Antarmuka yang clean dan intuitif
-- **Smooth Animations**: Animasi yang halus dan menarik
-
-#### 🔧 **Teknis**
-- **Real-time Updates**: Update data secara real-time
-- **Persistent Settings**: Pengaturan tersimpan di localStorage
-- **Error Handling**: Penanganan error yang comprehensive
-- **Loading States**: Indikator loading untuk UX yang baik
-
-## 🛠️ Teknologi & Tools
-
-### **Frontend Stack**
-- **React 18** - Library JavaScript untuk UI
-- **Vite** - Build tool dan dev server yang cepat
-- **TailwindCSS** - Framework CSS utility-first
-- **React Router** - Routing untuk SPA
-- **React Icons** - Icon library yang lengkap
-
-### **State Management**
-- **React Hooks**: useState, useEffect, useContext
-- **Context API**: State management global
-- **LocalStorage**: Persistent data storage
-
-### **Development Tools**
-- **PNPM**: Package manager yang efisien
-- **ESLint**: Code linting dan formatting
-- **Git**: Version control
-- **VS Code**: IDE development
-
-
-## 👥 Cara Penggunaan
-
-### **Untuk Pengguna**
-1. **Register/Login**: Buat akun atau login dengan kredensial yang ada
-2. **Cari Penerbangan**: Gunakan form pencarian di halaman Home
-3. **Pilih Penerbangan**: Klik detail untuk melihat informasi lengkap
-4. **Booking**: Isi data penumpang dan lakukan pembayaran
-5. **Kelola Booking**: Pantau status di halaman "Riwayat Pemesanan"
-
-### **Untuk Admin**
-1. **Login Admin**: Gunakan email `admin@gmail.com` dan password `admin123`
-2. **Dashboard**: Pantau statistik dan aktivitas sistem
-3. **Kelola Penerbangan**: Tambah/edit/hapus data penerbangan
-4. **Proses Booking**: Approve booking dan handle refund
-5. **Pengaturan**: Konfigurasi sistem sesuai kebutuhan
-
-
-### **Admin Credentials (Default)**
-- **Email**: admin@gmail.com
-- **Password**: admin123
-
-### **User Demo Account**
-- **Email**: user@example.com
-- **Password**: user123
-
-## 📊 Fitur Data Management
-
-### **LocalStorage Keys**
-- `flights`: Data penerbangan
-- `bookings`: Data pemesanan
-- `adminDisplaySettings`: Pengaturan tampilan admin
-- `adminFormatSettings`: Pengaturan format admin
-- `adminSession`: Session admin
-- `userSession`: Session user
-
-### **Data Backup**
-Admin dapat melakukan backup data melalui menu Settings → Backup & Restore
-
-## 🐛 Troubleshooting
-
-### **Common Issues**
-
-**1. Data tidak muncul**
-```bash
-# Clear localStorage
-localStorage.clear()
-# Reload halaman
+    User -->|Checkout with X-Idempotency-Key| Gateway
+    Gateway --> SeatLocker
+    Gateway --> ACID
+    Gateway --> LayoutService
+    ACID -.-> Cleaner
 ```
 
-**2. Login gagal**
-- Pastikan kredensial benar
-- Cek sessionStorage untuk admin/user session
+---
 
-**3. Build error**
+## 🚀 Fitur Unggulan Tingkat Industri
+
+### 1. 🔒 Distributed Seat Locking (15-Minute TTL)
+* Mengatasi masalah *race condition* saat ribuan pengguna berebut kursi pesawat yang sama di detik yang bersamaan.
+* Menggunakan Redis `SET NX EX 900` untuk reservasi kilat di level cache dan sinkronisasi row status `LOCKED` di PostgreSQL.
+* Dilengkapi countdown timer real-time di UI pengguna.
+
+### 2. 💳 Validasi Idempotensi (Idempotency Key)
+* Mencegah pemotongan saldo / pembuatan tiket ganda ketika pengguna mengklik tombol "Bayar" berkali-kali karena koneksi lambat.
+* Header `X-Idempotency-Key: <UUID>` divalidasi oleh Gin middleware dan dicache di Redis selama 15 menit.
+
+### 3. 🧩 Polyglot Persistence (Multi-Database Sesuai Kebutuhan)
+* **PostgreSQL 16**: Menyimpan data transaksional yang membutuhkan kepatuhan ketat **ACID** (Akun Pengguna, Jadwal Penerbangan, Pemesanan, Pembayaran, Status Kursi).
+* **MongoDB 7.0**: Menyimpan denah kabin pesawat yang dinamis (*Cabin Classes*, *Exit Rows*, *Aisle Indices*, *Seat Pitch*) tanpa membebani skema relasional.
+* **Redis 7.0**: Cache jadwal penerbangan, session storage, distributed lock, dan idempotency cache.
+
+### 4. 🧹 Background Goroutine Worker (Auto-Cancellation)
+* Worker asinkron berjalan di background setiap 30 detik untuk mendeteksi tiket berstatus `PENDING_PAYMENT` yang telah melewati batas 15 menit.
+* Mengubah status booking menjadi `CANCELLED` dan secara otomatis mengembalikan kursi menjadi `AVAILABLE`.
+
+### 5. 📊 Observability & Metrics
+* Endpoint `/metrics` standar **Prometheus** untuk memonitor traffic latency, request rate, dan database connection pooling.
+* Structured logging berkecepatan tinggi menggunakan **Uber Zap**.
+* Endpoint `/api/v1/health` untuk memantau status kesehatan PostgreSQL, MongoDB, dan Redis secara instan.
+
+---
+
+## 📂 Struktur Monorepo Proyek
+
+```
+uas-react-abu/
+├── .github/workflows/ci.yml       # GitHub Actions CI/CD (Go Vet, Test, React Build)
+├── docker-compose.yml             # Orkestrator Docker (Postgres, Mongo, Redis, Golang)
+├── docs/
+│   ├── API_DOCUMENTATION.md       # Dokumentasi API Lengkap
+│   └── openapi.yaml               # Spesifikasi Standar OpenAPI 3.0 / Swagger
+├── client/                        # Frontend Application (React 19 + Tailwind CSS)
+│   ├── src/
+│   │   ├── api/                   # Axios Client & Interceptors (JWT + Idempotency)
+│   │   ├── components/            # Komponen UI (Termasuk SeatMapModal interaktif)
+│   │   ├── context/               # AuthContext & DataContext (Dual-Mode Sync)
+│   │   └── pages/                 # Halaman User & Admin Dashboard
+│   └── package.json
+└── server/                        # Backend Application (Golang Gin Enterprise)
+    ├── cmd/api/main.go            # Entrypoint API & Dependency Injection
+    ├── Dockerfile                 # Multi-stage minimal production image
+    ├── internal/
+    │   ├── config/                # Environment & Database Connection Pooling
+    │   ├── delivery/http/         # HTTP Controllers / Handlers
+    │   ├── delivery/middleware/   # JWT, Idempotency, Prometheus Middleware
+    │   ├── domain/                # Entity Models & DTO Interfaces
+    │   ├── repository/            # Postgres GORM, Mongo Driver v2, Redis Repo
+    │   ├── usecase/               # Business Logic Layer
+    │   └── worker/                # Background Ticket Cleaner Goroutines
+    ├── pkg/                       # Reusable Logger, JWT Token, API Response
+    └── go.mod
+```
+
+---
+
+## ⚡ Panduan Menjalankan Proyek
+
+### Prasyarat
+* [Docker Desktop](https://www.docker.com/products/docker-desktop/) sudah terinstall dan berjalan.
+* [Node.js](https://nodejs.org/) v20+ & [pnpm](https://pnpm.io/)
+* [Go](https://go.dev/) v1.23+ (opsional jika menjalankan Go tanpa Docker)
+
+---
+
+### Cara 1: Menjalankan Seluruh Sistem dengan Docker (Paling Praktis)
+
+Cukup satu perintah di root direktori proyek:
+
 ```bash
-# Clear cache dan reinstall
-rm -rf node_modules pnpm-lock.yaml
+docker compose up -d --build
+```
+
+Layanan yang otomatis aktif:
+* **Backend API (Golang)**: `http://localhost:8080/api/v1`
+* **PostgreSQL 16**: Port `5433` (Database: `flybook_db`)
+* **MongoDB 7.0**: Port `27017` (Database: `flybook_nosql`)
+* **Redis 7.0**: Port `6379`
+* **Health Check**: `http://localhost:8080/api/v1/health`
+* **Prometheus Metrics**: `http://localhost:8080/metrics`
+
+Untuk menjalankan frontend:
+```bash
+cd client
 pnpm install
+pnpm run dev
+```
+Frontend akan aktif di `http://localhost:5173`.
+
+---
+
+### Cara 2: Menjalankan Backend Secara Lokal (Development Mode)
+
+1. Jalankan container database saja:
+   ```bash
+   docker compose up -d postgres mongodb redis
+   ```
+
+2. Jalankan backend Go:
+   ```bash
+   cd server
+   go run cmd/api/main.go
+   ```
+
+3. Jalankan frontend React:
+   ```bash
+   cd ../client
+   pnpm run dev
+   ```
+
+---
+
+## 🧪 Menjalankan Pengujian (Unit Testing)
+
+### Backend (Golang):
+```bash
+cd server
+go test -v -race -cover ./...
 ```
 
-## 👨‍💻 Developer
+### Frontend (React Build Check):
+```bash
+cd client
+pnpm run build
+```
 
-**Abu** - *Full Stack Developer*
-- GitHub: [@abu-dev](https://github.com/abu-dev)
-- LinkedIn: [Abu Developer](https://linkedin.com/in/abu-dev)
+---
 
-## 🙏 Acknowledgments
+## 🔑 Kredensial Bawaan (Database Seeder)
 
-- [React](https://reactjs.org/) - UI Library
-- [TailwindCSS](https://tailwindcss.com/) - CSS Framework
-- [React Icons](https://react-icons.github.io/react-icons/) - Icon Library
-- [Vite](https://vitejs.dev/) - Build Tool
+Database otomatis di-seed saat server pertama kali dijalankan:
 
+| Role | Email | Password | Hak Akses |
+|---|---|---|---|
+| **Super Admin** | `admin@gmail.com` | `admin123` | Akses penuh dashboard admin, analitik, dan manajemen rute |
+| **Customer** | `user@example.com` | `user123` | Pencarian tiket, seat locking, pemesanan, e-ticket |
+
+---
+
+## 📖 Dokumentasi API
+
+Spesifikasi lengkap REST API dapat diakses di:
+* Markdown Reference: [docs/API_DOCUMENTATION.md](file:///docs/API_DOCUMENTATION.md)
+* OpenAPI 3.0 / Swagger Spec: [docs/openapi.yaml](file:///docs/openapi.yaml) (Bisa diimpor langsung ke Postman, Insomnia, atau Bruno)
+
+---
+
+## 👨‍💻 Kontributor
+
+* **Abu Dujanah Siregar** - *Lead Full Stack & Go Software Engineer*
+* Repository: [github.com/DujanahSr/uas-react-final](https://github.com/DujanahSr/uas-react-final)
+* Live Frontend: [uas-react-final.vercel.app](https://uas-react-final.vercel.app/)

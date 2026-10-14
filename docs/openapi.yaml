@@ -1,0 +1,284 @@
+openapi: 3.0.3
+info:
+  title: FlyBook Enterprise Flight Booking API
+  description: >
+    Production-grade Flight Booking Engine Backend built with Go (Gin),
+    PostgreSQL (ACID Transactions), MongoDB (Aircraft Layouts), and Redis
+    (15-minute Distributed Seat Locks & Idempotency Key Caching).
+  version: 1.0.0
+  contact:
+    name: FlyBook Engineering Team
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Local Development Server
+  - url: https://api.flybook.example.com/api/v1
+    description: Production Cluster Gateway
+
+paths:
+  /health:
+    get:
+      summary: Health Check Endpoint
+      description: Returns health status of PostgreSQL, MongoDB, and Redis.
+      responses:
+        '200':
+          description: All subsystems healthy
+          content:
+            application/json:
+              example:
+                status: success
+                message: FlyBook Enterprise API is running
+                databases:
+                  postgres: healthy
+                  mongodb: healthy
+                  redis: healthy
+                timestamp: "2026-10-15T01:00:00Z"
+                version: "1.0.0"
+
+  /auth/register:
+    post:
+      summary: Register Customer Account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, password, phone]
+              properties:
+                name: { type: string, example: "John Doe" }
+                email: { type: string, format: email, example: "johndoe@example.com" }
+                password: { type: string, minLength: 6, example: "Secret123" }
+                phone: { type: string, example: "081234567890" }
+      responses:
+        '201':
+          description: User registered successfully
+        '400':
+          description: Invalid data or email already registered
+
+  /auth/login:
+    post:
+      summary: Login User / Admin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string, format: email, example: "user@example.com" }
+                password: { type: string, example: "user123" }
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              example:
+                status: success
+                message: Login berhasil
+                data:
+                  token: "eyJhbGciOi..."
+                  user:
+                    id: "11111111-2222-3333-4444-555555555555"
+                    name: "Demo Passenger"
+                    email: "user@example.com"
+                    role: "CUSTOMER"
+
+  /auth/me:
+    get:
+      summary: Get Current User Profile
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Profile retrieved
+
+  /flights:
+    get:
+      summary: Search Flights with Dynamic Filters
+      parameters:
+        - name: from
+          in: query
+          schema: { type: string, example: "CGK" }
+        - name: to
+          in: query
+          schema: { type: string, example: "DPS" }
+        - name: date
+          in: query
+          schema: { type: string, format: date, example: "2026-10-16" }
+        - name: airline
+          in: query
+          schema: { type: string }
+        - name: min_price
+          in: query
+          schema: { type: number }
+        - name: max_price
+          in: query
+          schema: { type: number }
+        - name: sort_by
+          in: query
+          schema: { type: string, enum: [price_asc, price_desc, departure_asc, duration_asc] }
+      responses:
+        '200':
+          description: Filtered flights list
+
+  /flights/{id}:
+    get:
+      summary: Get Flight Detail by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Flight details
+        '404':
+          description: Flight not found
+
+  /flights/{id}/seats:
+    get:
+      summary: Dynamic Seat Map (Polyglot Mongo Layout + Postgres Status)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Cabin layout & real-time seat availability
+
+  /flights/{id}/seats/lock:
+    post:
+      summary: 15-Minute Distributed Seat Lock (Redis SET NX EX 900)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+        - name: X-Idempotency-Key
+          in: header
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [seat_number, user_id]
+              properties:
+                seat_number: { type: string, example: "10A" }
+                user_id: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Seat locked for 15 minutes
+        '409':
+          description: Seat already locked or booked by another customer
+
+  /flights/{id}/seats/unlock:
+    post:
+      summary: Unlock / Release Locked Seat
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [seat_number, user_id]
+              properties:
+                seat_number: { type: string, example: "10A" }
+                user_id: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Seat released
+
+  /bookings:
+    post:
+      summary: Checkout & Create Booking (ACID Row Lock)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: X-Idempotency-Key
+          in: header
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [flight_id, passengers, payment_method]
+              properties:
+                flight_id: { type: string, format: uuid }
+                payment_method: { type: string, enum: [CREDIT_CARD, QRIS, BCA_VA] }
+                passengers:
+                  type: array
+                  items:
+                    type: object
+                    required: [seat_number, passenger_name, id_type, id_number, date_of_birth]
+                    properties:
+                      seat_number: { type: string, example: "10A" }
+                      passenger_name: { type: string, example: "Budi Santoso" }
+                      id_type: { type: string, enum: [KTP, PASSPORT] }
+                      id_number: { type: string, example: "3171012345678901" }
+                      date_of_birth: { type: string, example: "1995-08-17" }
+      responses:
+        '201':
+          description: Booking created with status PENDING_PAYMENT (Expires in 15 mins)
+        '409':
+          description: Seat conflict or invalid state
+
+  /bookings/my:
+    get:
+      summary: Get Authenticated User Booking History
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: List of bookings with passenger e-tickets and QR codes
+
+  /bookings/{id}:
+    get:
+      summary: Get Booking Details
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Full booking summary with invoice
+
+  /payments/webhook:
+    post:
+      summary: Payment Gateway Webhook (Midtrans / Xendit Format)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [order_id, transaction_id, transaction_status]
+              properties:
+                order_id: { type: string, description: "Booking Code (e.g. FBKABC12)" }
+                transaction_id: { type: string }
+                transaction_status: { type: string, enum: [settlement, capture, expire, cancel, deny] }
+      responses:
+        '200':
+          description: Webhook processed idempotently
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
