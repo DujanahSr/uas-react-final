@@ -24,7 +24,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.23'
+          go-version-file: 'server/go.mod'
           cache-dependency-path: server/go.sum
 
       - name: Verify Dependencies
@@ -34,7 +34,7 @@ jobs:
         run: go vet ./...
 
       - name: Run Unit Tests with Coverage
-        run: go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
+        run: go test -v -cover ./...
 
       - name: Verify Multi-Stage Docker Build
         run: docker build -t flybook-server:ci .
