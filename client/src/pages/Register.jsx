@@ -69,7 +69,7 @@ const Register = () => {
     setFieldErrors({ ...fieldErrors, [name]: fieldError });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
@@ -97,28 +97,24 @@ const Register = () => {
       return;
     }
 
-    // Cek apakah email sudah terdaftar
-    const existingUser = users.find((u) => u.email === formData.email);
-    if (existingUser) {
-      setError("Email sudah terdaftar. Silakan login.");
-      setFieldErrors({ ...fieldErrors, email: "Email sudah terdaftar" });
+    try {
+      // Register user baru (Go API with local fallback)
+      const newUser = {
+        role: "user",
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        phone: formData.phone,
+        address: formData.address,
+      };
+
+      await registerUser(newUser);
       setLoading(false);
-      return;
+      navigate("/");
+    } catch (err) {
+      setError(err.message || "Pendaftaran gagal. Silakan coba lagi.");
+      setLoading(false);
     }
-
-    // Register user baru
-    const newUser = {
-      role: "user",
-      name: formData.name,
-      email: formData.email,
-      password: formData.password,
-      phone: formData.phone,
-      address: formData.address,
-    };
-
-    registerUser(newUser);
-    setLoading(false);
-    navigate("/");
   };
 
   return (

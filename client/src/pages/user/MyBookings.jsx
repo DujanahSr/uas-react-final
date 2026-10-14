@@ -19,9 +19,15 @@ import {
 import { FaPlane, FaMapMarkerAlt } from "react-icons/fa";
 
 const MyBookings = () => {
-  const { bookings, requestRefund } = useData();
+  const { bookings, requestRefund, syncBookingsFromApi } = useData();
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (syncBookingsFromApi) {
+      syncBookingsFromApi();
+    }
+  }, [syncBookingsFromApi]);
 
   const [activeTab, setActiveTab] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
@@ -34,7 +40,9 @@ const MyBookings = () => {
   });
   const [refundReason, setRefundReason] = useState("");
 
-  const userBookings = bookings.filter((b) => b.email === user?.email);
+  const userBookings = bookings.filter(
+    (b) => !user?.email || b.email === user?.email || b.isBackend
+  );
 
   const filteredBookings = userBookings.filter((booking) => {
     // Tab filter

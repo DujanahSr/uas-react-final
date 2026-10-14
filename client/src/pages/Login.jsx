@@ -30,7 +30,7 @@ const Login = () => {
     setError("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
@@ -41,42 +41,32 @@ const Login = () => {
       return;
     }
 
-    if (formData.role === "admin") {
-      if (
-        formData.email === "admin@gmail.com" &&
-        formData.password === "admin123"
-      ) {
-        loginAdmin({ role: "admin", email: formData.email });
+    try {
+      if (formData.role === "admin") {
+        await loginAdmin({
+          email: formData.email,
+          password: formData.password,
+          role: "admin",
+        });
         setLoadingMessage("Masuk ke Dashboard Admin...");
         setShowLoadingScreen(true);
         setTimeout(() => {
           navigate("/admin");
-        }, 2000);
+        }, 1200);
       } else {
-        setError("Credential admin salah");
-        setLoading(false);
+        await loginUser({
+          email: formData.email,
+          password: formData.password,
+        });
+        setLoadingMessage("Memuat halaman utama...");
+        setShowLoadingScreen(true);
+        setTimeout(() => {
+          navigate("/");
+        }, 1200);
       }
-    } else {
-      // User: cek apakah sudah terdaftar
-      const storedUsers = JSON.parse(localStorage.getItem("users") || "[]");
-      const existingUser = storedUsers.find((u) => u.email === formData.email);
-
-      if (existingUser) {
-        if (existingUser.password === formData.password) {
-          loginUser(existingUser);
-          setLoadingMessage("Memuat halaman utama...");
-          setShowLoadingScreen(true);
-          setTimeout(() => {
-            navigate("/");
-          }, 2000);
-        } else {
-          setError("Password salah");
-          setLoading(false);
-        }
-      } else {
-        setError("Email tidak terdaftar. Silakan daftar terlebih dahulu.");
-        setLoading(false);
-      }
+    } catch (err) {
+      setError(err.message || "Login gagal. Periksa kembali email dan password Anda.");
+      setLoading(false);
     }
   };
 

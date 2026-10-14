@@ -7,6 +7,7 @@ import { useData } from "../../context/DataContext";
 import { useAuth } from "../../context/AuthContext";
 import { formatPrice } from "../../data/mockData";
 import AlertModal from "../../components/AlertModal";
+import SeatMapModal from "../../components/SeatMapModal";
 import Footer from "../../components/Footer";
 import {
   validateKTP,
@@ -92,6 +93,18 @@ const FlightDetail = () => {
   });
   const [passengerErrors, setPassengerErrors] = useState({});
   const [contactErrors, setContactErrors] = useState({});
+  const [seatModalOpen, setSeatModalOpen] = useState(false);
+  const [currentPassengerIndexForSeat, setCurrentPassengerIndexForSeat] = useState(0);
+  const [bookingLoading, setBookingLoading] = useState(false);
+
+  const openSeatModal = (index) => {
+    setCurrentPassengerIndexForSeat(index);
+    setSeatModalOpen(true);
+  };
+
+  const handleSeatSelected = (seatNumber) => {
+    updatePassengerData(currentPassengerIndexForSeat, "seat", seatNumber);
+  };
 
   // Update contact ketika user berubah (misalnya setelah edit profil)
   useEffect(() => {
@@ -223,7 +236,8 @@ const FlightDetail = () => {
     setCurrentStep((prev) => Math.max(prev - 1, 1));
   };
 
-  const handleBooking = () => {
+  const handleBooking = async () => {
+    setBookingLoading(true);
     const newBooking = {
       id: "BK" + Date.now(),
       bookingCode:
@@ -233,7 +247,7 @@ const FlightDetail = () => {
         ...p,
         seat:
           p.seat ||
-          `${Math.floor(Math.random() * 30) + 1}${String.fromCharCode(
+          `${Math.floor(Math.random() * 20) + 4}${String.fromCharCode(
             65 + (i % 6)
           )}`,
       })),
@@ -253,7 +267,7 @@ const FlightDetail = () => {
       tax: tax,
       addons: [],
       status: "Pending",
-      paymentStatus: "Paid", // Otomatis Paid karena pembayaran sudah dilakukan saat booking
+      paymentStatus: "Paid",
       paymentMethod: "Credit Card",
       bookingDate: new Date().toISOString().split("T")[0],
       class:
@@ -262,11 +276,18 @@ const FlightDetail = () => {
           : selectedClass === "business"
           ? "Bisnis"
           : "First Class",
-      seats: passengerData.map((p) => p.seat || ""),
+      seats: passengerData.map((p, i) => p.seat || `${10 + i}A`),
     };
 
-    addBooking(newBooking);
-    navigate("/booking-success", { state: { booking: newBooking, flight } });
+    try {
+      const created = await addBooking(newBooking);
+      setBookingLoading(false);
+      navigate("/booking-success", { state: { booking: created || newBooking, flight } });
+    } catch (err) {
+      console.warn("Booking creation exception, continuing locally:", err);
+      setBookingLoading(false);
+      navigate("/booking-success", { state: { booking: newBooking, flight } });
+    }
   };
 
   const updatePassengerData = (index, field, value) => {
@@ -720,6 +741,37 @@ const FlightDetail = () => {
                               </p>
                             )}
                           </div>
+
+                          {/* Seat Selection Button */}
+                          <div className="md:col-span-2 pt-2">
+                            <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 bg-blue-50/70 dark:bg-slate-700/40 rounded-xl border border-blue-200/60 dark:border-slate-600/60">
+                              <div>
+                                <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider dark:text-gray-400">
+                                  Kursi Penerbangan
+                                </div>
+                                <div className="text-sm font-bold text-gray-900 dark:text-white mt-0.5">
+                                  {passenger.seat ? (
+                                    <span className="text-blue-600 dark:text-blue-400 flex items-center gap-1.5">
+                                      <AiOutlineCheckCircle className="text-emerald-500" size={16} /> Kursi: {passenger.seat}
+                                    </span>
+                                  ) : (
+                                    <span className="text-gray-400 dark:text-gray-400 font-normal italic text-xs">
+                                      Belum memilih kursi (otomatis saat konfirmasi)
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => openSeatModal(index)}
+                                className="flex items-center gap-2 px-3.5 py-2 text-xs font-bold text-white transition-all transform rounded-lg shadow-sm bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 active:scale-95"
+                              >
+                                <FaPlane size={12} />
+                                {passenger.seat ? "Ubah Kursi" : "Pilih Denah Kursi"}
+                              </button>
+                            </div>
+                          </div>
+
                           {index === 0 && user && (
                             <div className="pt-2 border-t border-gray-200 md:col-span-2 dark:border-gray-700">
                               <Link
@@ -974,6 +1026,18 @@ const FlightDetail = () => {
           </div>
         </div>
       </main>
+
+      {/* Seat Map Modal */}
+      <SeatMapModal
+        isOpen={seatModalOpen}
+        onClose={() => setSeatModalOpen(false)}
+        flight={flight}
+        passengerIndex={currentPassengerIndexForSeat}
+        passengerName={passengerData[currentPassengerIndexForSeat]?.name || `Penumpang ${currentPassengerIndexForSeat + 1}`}
+        currentSeat={passengerData[currentPassengerIndexForSeat]?.seat || ""}
+        onSelectSeat={handleSeatSelected}
+        userId={user?.id || user?.email || "guest-user"}
+      />
 
       {/* Alert Modal */}
       <AlertModal
