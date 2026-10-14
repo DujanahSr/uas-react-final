@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  # Primary Relational Database (ACID - Transactions, Flights, Seats, Bookings)
+  postgres:
+    image: postgres:16-alpine
+    container_name: flybook-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-flybook_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-flybook_secret}
+      POSTGRES_DB: ${DB_NAME:-flybook_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-flybook_user} -d ${DB_NAME:-flybook_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # NoSQL Document Database (Dynamic Aircraft Cabin Layouts & Search Logs)
+  mongodb:
+    image: mongo:7.0
+    container_name: flybook-mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER:-flybook_admin}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:-flybook_secret}
+      MONGO_INITDB_DATABASE: ${MONGO_DB:-flybook_nosql}
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  # Distributed In-Memory Cache & Seat-Locking Engine
+  redis:
+    image: redis:7-alpine
+    container_name: flybook-redis
+    restart: unless-stopped
+    command: redis-server --requirepass ${REDIS_PASSWORD:-flybook_secret}
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-flybook_secret}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+    driver: local
+  mongo_data:
+    driver: local
+  redis_data:
+    driver: local

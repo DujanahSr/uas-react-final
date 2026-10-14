@@ -1,0 +1,69 @@
+name: FlyBook CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  # -------------------------------------------------------------
+  # Job 1: Test & Lint Backend (Golang)
+  # -------------------------------------------------------------
+  backend-ci:
+    name: Backend CI (Golang)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+          cache-dependency-path: server/go.sum
+
+      - name: Verify Dependencies
+        run: go mod verify
+
+      - name: Run Go Vet (Static Analysis)
+        run: go vet ./...
+
+      - name: Run Unit Tests with Coverage
+        run: go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
+
+  # -------------------------------------------------------------
+  # Job 2: Lint & Build Frontend (React + Vite)
+  # -------------------------------------------------------------
+  frontend-ci:
+    name: Frontend CI (React Vite)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: client
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+          cache-dependency-path: client/pnpm-lock.yaml
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build React Application
+        run: pnpm run build

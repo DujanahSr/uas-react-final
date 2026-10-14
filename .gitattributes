@@ -1,0 +1,16 @@
+# GitHub Linguist Configuration
+# Prevents large static JS/JSON/Mock assets from skewing repository language statistics
+
+# Ignore generated builds & dependencies
+client/dist/** linguist-vendored
+client/node_modules/** linguist-vendored
+client/pnpm-lock.yaml linguist-vendored
+
+# Ignore heavy JSON mock data from skewing towards JavaScript/JSON
+client/src/data/** linguist-vendored
+*.json linguist-detectable=false
+*.md linguist-documentation
+
+# Optional: If you want GitHub to count only Golang (e.g. 95%+ Go for pure backend showcase),
+# uncomment the line below:
+# client/** linguist-vendored
