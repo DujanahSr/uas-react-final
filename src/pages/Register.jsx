@@ -122,16 +122,16 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden">
+    <div className="relative flex items-center justify-center min-h-screen p-4 overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-20 -right-20 w-96 h-96 bg-blue-200 rounded-full opacity-20 blur-3xl animate-pulse"></div>
+        <div className="absolute bg-blue-200 rounded-full -top-20 -right-20 w-96 h-96 opacity-20 blur-3xl animate-pulse"></div>
         <div
-          className="absolute -bottom-20 -left-20 w-96 h-96 bg-indigo-200 rounded-full opacity-20 blur-3xl animate-pulse"
+          className="absolute bg-indigo-200 rounded-full -bottom-20 -left-20 w-96 h-96 opacity-20 blur-3xl animate-pulse"
           style={{ animationDelay: "1s" }}
         ></div>
         <div
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-purple-200 rounded-full opacity-10 blur-3xl animate-pulse"
+          className="absolute transform -translate-x-1/2 -translate-y-1/2 bg-purple-200 rounded-full top-1/2 left-1/2 w-72 h-72 opacity-10 blur-3xl animate-pulse"
           style={{ animationDelay: "2s" }}
         ></div>
       </div>
@@ -139,8 +139,8 @@ const Register = () => {
       <div className="w-full max-w-md p-10 bg-white/90 backdrop-blur-sm border border-gray-200 shadow-2xl dark:bg-gray-800/90 dark:border-gray-700 rounded-3xl relative z-10 transform transition-all duration-500 hover:scale-[1.02]">
         <div className="mb-8 text-center">
           <div className="relative flex items-center justify-center w-24 h-24 mx-auto mb-6">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full animate-ping opacity-20"></div>
-            <div className="relative flex items-center justify-center w-24 h-24 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full shadow-lg">
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 animate-ping opacity-20"></div>
+            <div className="relative flex items-center justify-center w-24 h-24 rounded-full shadow-lg bg-gradient-to-r from-blue-600 to-indigo-600">
               <FaPlane
                 size={40}
                 className="text-white animate-bounce"
@@ -148,10 +148,10 @@ const Register = () => {
               />
             </div>
           </div>
-          <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-indigo-400">
+          <h2 className="text-4xl font-bold text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text dark:from-blue-400 dark:to-indigo-400">
             Daftar Akun Baru
           </h2>
-          <p className="mt-3 text-gray-600 dark:text-gray-400 text-lg">
+          <p className="mt-3 text-lg text-gray-600 dark:text-gray-400">
             Buat akun untuk memesan tiket pesawat
           </p>
         </div>
@@ -248,7 +248,7 @@ const Register = () => {
               <button
                 type="button"
                 onClick={() => setShowPassword((prev) => !prev)}
-                className="absolute inset-y-0 right-3 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+                className="absolute inset-y-0 flex items-center text-gray-400 right-3 hover:text-gray-600 dark:hover:text-gray-200"
                 aria-label={
                   showPassword ? "Sembunyikan password" : "Lihat password"
                 }
@@ -292,7 +292,7 @@ const Register = () => {
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword((prev) => !prev)}
-                className="absolute inset-y-0 right-3 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+                className="absolute inset-y-0 flex items-center text-gray-400 right-3 hover:text-gray-600 dark:hover:text-gray-200"
                 aria-label={
                   showConfirmPassword
                     ? "Sembunyikan konfirmasi password"
@@ -377,7 +377,7 @@ const Register = () => {
           >
             {loading ? (
               <>
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-5 h-5 border-2 border-white rounded-full border-t-transparent animate-spin"></div>
                 Memproses...
               </>
             ) : (
