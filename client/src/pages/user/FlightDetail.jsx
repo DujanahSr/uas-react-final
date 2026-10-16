@@ -8,6 +8,7 @@ import { useAuth } from "../../context/AuthContext";
 import { formatPrice } from "../../data/mockData";
 import AlertModal from "../../components/AlertModal";
 import SeatMapModal from "../../components/SeatMapModal";
+import PaymentGatewayModal from "../../components/PaymentGatewayModal";
 import Footer from "../../components/Footer";
 import {
   validateKTP,
@@ -26,8 +27,10 @@ import {
   AiOutlineArrowLeft,
   AiOutlineInfoCircle,
   AiOutlineHome,
+  AiOutlineTag,
+  AiOutlineSafety,
 } from "react-icons/ai";
-import { FaPlane, FaUserFriends, FaMapMarkerAlt } from "react-icons/fa";
+import { FaPlane, FaUserFriends, FaMapMarkerAlt, FaSuitcase, FaUtensils } from "react-icons/fa";
 import { HiOutlineUserGroup } from "react-icons/hi";
 
 const FlightDetail = () => {
@@ -142,9 +145,48 @@ const FlightDetail = () => {
     return flight.prices?.[priceKey] || flight.price;
   };
 
-  const totalPrice = getPrice() * passengers;
-  const tax = Math.round(totalPrice * 0.1); // 10% tax
-  const finalTotal = totalPrice + tax;
+  // Ancillary states (Traveloka-grade add-ons)
+  const [selectedBaggage, setSelectedBaggage] = useState({ kg: 0, price: 0 });
+  const [selectedMeal, setSelectedMeal] = useState({ name: "Tanpa Makanan Tambahan", price: 0 });
+  const [hasInsurance, setHasInsurance] = useState(true);
+  const [promoInput, setPromoInput] = useState("");
+  const [appliedPromo, setAppliedPromo] = useState(null);
+  const [promoError, setPromoError] = useState("");
+  const [paymentModalOpen, setPaymentModalOpen] = useState(false);
+  const [pendingBookingData, setPendingBookingData] = useState(null);
+
+  // Price calculations
+  const ticketBaseTotal = getPrice() * passengers;
+  const baggageTotal = (selectedBaggage.price || 0) * passengers;
+  const mealTotal = (selectedMeal.price || 0) * passengers;
+  const insuranceTotal = hasInsurance ? 45000 * passengers : 0;
+  const subtotalBeforeTax = ticketBaseTotal + baggageTotal + mealTotal + insuranceTotal;
+  const tax = Math.round(subtotalBeforeTax * 0.1); // 10% tax
+
+  let discountAmount = 0;
+  if (appliedPromo) {
+    if (appliedPromo.type === "percentage") {
+      discountAmount = Math.round((subtotalBeforeTax * appliedPromo.value) / 100);
+    } else {
+      discountAmount = appliedPromo.value;
+    }
+  }
+  const finalTotal = Math.max(0, subtotalBeforeTax + tax - discountAmount);
+
+  const handleApplyPromo = (e) => {
+    if (e) e.preventDefault();
+    setPromoError("");
+    const code = promoInput.trim().toUpperCase();
+    if (code === "FLYBOOKPROMO") {
+      setAppliedPromo({ code, label: "Diskon Promo 10%", type: "percentage", value: 10 });
+    } else if (code === "TRAVELOKAHEMAT") {
+      setAppliedPromo({ code, label: "Potongan Kupon Rp 100.000", type: "fixed", value: 100000 });
+    } else if (code === "UASBEST") {
+      setAppliedPromo({ code, label: "Diskon Spesial UAS Rp 150.000", type: "fixed", value: 150000 });
+    } else {
+      setPromoError("Kode promo tidak valid atau telah kedaluwarsa.");
+    }
+  };
 
   const handleNextStep = () => {
     if (currentStep === 1) {
@@ -225,10 +267,6 @@ const FlightDetail = () => {
         return;
       }
     }
-    if (currentStep === 3) {
-      // Step 3 tidak perlu validasi karena data sudah auto-fill dari user
-      // Langsung lanjut ke step berikutnya
-    }
     setCurrentStep((prev) => Math.min(prev + 1, 4));
   };
 
@@ -236,20 +274,16 @@ const FlightDetail = () => {
     setCurrentStep((prev) => Math.max(prev - 1, 1));
   };
 
-  const handleBooking = async () => {
-    setBookingLoading(true);
-    const newBooking = {
+  // Triggers the enterprise payment gateway modal
+  const handleInitiatePayment = () => {
+    const bookingCode = "FBK" + Math.random().toString(36).substr(2, 8).toUpperCase();
+    const draftBooking = {
       id: "BK" + Date.now(),
-      bookingCode:
-        "FBK" + Math.random().toString(36).substr(2, 8).toUpperCase(),
+      bookingCode,
       passengerName: contact.name,
       passengers: passengerData.map((p, i) => ({
         ...p,
-        seat:
-          p.seat ||
-          `${Math.floor(Math.random() * 20) + 4}${String.fromCharCode(
-            65 + (i % 6)
-          )}`,
+        seat: p.seat || `${Math.floor(Math.random() * 20) + 4}${String.fromCharCode(65 + (i % 6))}`,
       })),
       email: contact.email,
       phone: contact.phone,
@@ -263,12 +297,17 @@ const FlightDetail = () => {
       departureTime: flight.departureTime,
       arrivalTime: flight.arrivalTime,
       totalPrice: finalTotal,
-      basePrice: totalPrice,
+      basePrice: ticketBaseTotal,
       tax: tax,
-      addons: [],
-      status: "Pending",
+      addons: [
+        selectedBaggage.kg > 0 ? `Extra Bagasi +${selectedBaggage.kg}kg (${formatPrice(selectedBaggage.price)})` : null,
+        selectedMeal.price > 0 ? `Makanan: ${selectedMeal.name} (${formatPrice(selectedMeal.price)})` : null,
+        hasInsurance ? "Asuransi FlyBook Care 100%" : null,
+        appliedPromo ? `Promo: ${appliedPromo.code} (-${formatPrice(discountAmount)})` : null,
+      ].filter(Boolean),
+      status: "Confirmed",
       paymentStatus: "Paid",
-      paymentMethod: "Credit Card",
+      paymentMethod: "Virtual Account",
       bookingDate: new Date().toISOString().split("T")[0],
       class:
         selectedClass === "economy"
@@ -279,14 +318,35 @@ const FlightDetail = () => {
       seats: passengerData.map((p, i) => p.seat || `${10 + i}A`),
     };
 
+    setPendingBookingData(draftBooking);
+    setPaymentModalOpen(true);
+  };
+
+  const handlePaymentSuccess = async (paymentDetails) => {
+    setPaymentModalOpen(false);
+    setBookingLoading(true);
+
+    const completedBooking = {
+      ...pendingBookingData,
+      paymentMethod: paymentDetails.paymentMethod,
+      transactionId: paymentDetails.transactionId,
+      paymentStatus: "Paid",
+      status: "Confirmed",
+      paidAt: paymentDetails.paidAt,
+    };
+
     try {
-      const created = await addBooking(newBooking);
+      const created = await addBooking(completedBooking);
       setBookingLoading(false);
-      navigate("/booking-success", { state: { booking: created || newBooking, flight } });
+      navigate("/booking-success", {
+        state: { booking: created || completedBooking, flight },
+      });
     } catch (err) {
       console.warn("Booking creation exception, continuing locally:", err);
       setBookingLoading(false);
-      navigate("/booking-success", { state: { booking: newBooking, flight } });
+      navigate("/booking-success", {
+        state: { booking: completedBooking, flight },
+      });
     }
   };
 
@@ -934,19 +994,144 @@ const FlightDetail = () => {
                       </div>
                     </div>
 
-                    {/* Payment Method - Simplified */}
-                    <div>
-                      <label className="block mb-3 text-sm font-medium text-gray-700 dark:text-gray-300">
-                        Metode Pembayaran
+                    {/* Ancillary Services (Traveloka-grade Add-ons) */}
+                    <div className="space-y-4 pt-4 border-t border-gray-200 dark:border-slate-700">
+                      <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                        <FaSuitcase size={18} className="text-blue-600" />
+                        Layanan Tambahan (Add-ons)
+                      </h3>
+
+                      {/* Extra Baggage */}
+                      <div className="p-4 bg-gray-50 border border-gray-200 rounded-xl dark:bg-slate-800/80 dark:border-slate-700 space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-bold uppercase text-gray-700 dark:text-gray-300">
+                            Bagasi Tambahan (Per Penumpang)
+                          </span>
+                          <span className="text-[11px] text-emerald-600 font-semibold bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-full">
+                            Gratis 20kg Termasuk
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                          {[
+                            { kg: 0, label: "+0 kg", price: 0 },
+                            { kg: 5, label: "+5 kg", price: 120000 },
+                            { kg: 10, label: "+10 kg", price: 220000 },
+                            { kg: 20, label: "+20 kg", price: 400000 },
+                          ].map((b) => (
+                            <button
+                              key={b.kg}
+                              type="button"
+                              onClick={() => setSelectedBaggage(b)}
+                              className={`py-2 px-2.5 rounded-xl border text-xs font-semibold text-center transition-all ${
+                                selectedBaggage.kg === b.kg
+                                  ? "border-blue-600 bg-blue-50 text-blue-700 dark:bg-blue-900/40 dark:border-blue-500 dark:text-blue-300 ring-2 ring-blue-500/20"
+                                  : "border-gray-200 dark:border-slate-700 text-gray-700 dark:text-gray-300 hover:border-gray-300"
+                              }`}
+                            >
+                              <span className="block font-bold">{b.label}</span>
+                              <span className="text-[10px] text-gray-500 dark:text-gray-400">
+                                {b.price === 0 ? "Gratis" : formatPrice(b.price)}
+                              </span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* In-Flight Meal */}
+                      <div className="p-4 bg-gray-50 border border-gray-200 rounded-xl dark:bg-slate-800/80 dark:border-slate-700 space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-bold uppercase text-gray-700 dark:text-gray-300 flex items-center gap-1.5">
+                            <FaUtensils size={13} className="text-amber-500" />
+                            Makanan di Pesawat (In-Flight Meal)
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                          {[
+                            { name: "Tanpa Makanan Tambahan", price: 0 },
+                            { name: "Nasi Padang Rendang Daging", price: 55000 },
+                            { name: "Nasi Ayam Bakar Madu", price: 50000 },
+                            { name: "Beef Teriyaki Rice Bowl", price: 55000 },
+                          ].map((m) => (
+                            <button
+                              key={m.name}
+                              type="button"
+                              onClick={() => setSelectedMeal(m)}
+                              className={`py-2.5 px-3 rounded-xl border text-left text-xs font-semibold transition-all flex justify-between items-center ${
+                                selectedMeal.name === m.name
+                                  ? "border-blue-600 bg-blue-50 text-blue-700 dark:bg-blue-900/40 dark:border-blue-500 dark:text-blue-300 ring-2 ring-blue-500/20"
+                                  : "border-gray-200 dark:border-slate-700 text-gray-700 dark:text-gray-300 hover:border-gray-300"
+                              }`}
+                            >
+                              <span className="truncate pr-2">{m.name}</span>
+                              <span className="font-bold text-[11px] shrink-0">
+                                {m.price === 0 ? "Rp 0" : formatPrice(m.price)}
+                              </span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Travel Insurance */}
+                      <label className="flex items-start gap-3 p-4 border border-blue-200 rounded-xl bg-blue-50/50 dark:bg-blue-950/20 dark:border-blue-900/60 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={hasInsurance}
+                          onChange={(e) => setHasInsurance(e.target.checked)}
+                          className="mt-1 w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+                        />
+                        <div className="flex-1 text-xs">
+                          <div className="flex items-center justify-between">
+                            <span className="font-bold text-gray-900 dark:text-white flex items-center gap-1.5">
+                              <AiOutlineSafety className="text-blue-600" size={16} />
+                              Perlindungan Perjalanan FlyBook Care
+                            </span>
+                            <span className="font-bold text-blue-600 dark:text-blue-400">
+                              +{formatPrice(45000)} /pax
+                            </span>
+                          </div>
+                          <p className="text-gray-600 dark:text-gray-400 mt-0.5">
+                            Kompensasi keterlambatan &gt;90 menit (Rp 600rb), perlindungan bagasi hilang (Rp 3jt), serta biaya medis darurat.
+                          </p>
+                        </div>
                       </label>
-                      <select
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500"
-                        defaultValue="credit-card"
-                      >
-                        <option value="credit-card">Credit/Debit Card</option>
-                        <option value="bank-transfer">Bank Transfer</option>
-                        <option value="e-wallet">E-Wallet</option>
-                      </select>
+
+                      {/* Promo Code Input */}
+                      <div className="p-4 bg-gray-50 border border-gray-200 rounded-xl dark:bg-slate-800/80 dark:border-slate-700">
+                        <span className="text-xs font-bold uppercase text-gray-700 dark:text-gray-300 flex items-center gap-1.5 mb-2">
+                          <AiOutlineTag size={15} className="text-amber-500" />
+                          Gunakan Kode Promo / Kupon
+                        </span>
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            placeholder="Contoh: FLYBOOKPROMO / UASBEST"
+                            value={promoInput}
+                            onChange={(e) => setPromoInput(e.target.value)}
+                            className="flex-1 px-3.5 py-2 text-xs font-mono uppercase tracking-wider border border-gray-300 rounded-xl dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+                          />
+                          <button
+                            type="button"
+                            onClick={handleApplyPromo}
+                            className="px-4 py-2 text-xs font-bold text-white bg-blue-600 rounded-xl hover:bg-blue-700 transition-all shrink-0 active:scale-95"
+                          >
+                            Terapkan
+                          </button>
+                        </div>
+                        {appliedPromo && (
+                          <div className="mt-2 text-xs text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
+                            <AiOutlineCheckCircle size={14} />
+                            <span>Kupon berhasil diterapkan: {appliedPromo.label}</span>
+                          </div>
+                        )}
+                        {promoError && (
+                          <div className="mt-2 text-xs text-rose-500 font-semibold">
+                            {promoError}
+                          </div>
+                        )}
+                        <div className="mt-2 text-[10px] text-gray-400">
+                          Kode demo: <span className="font-mono font-bold text-blue-500">FLYBOOKPROMO</span> (-10%), <span className="font-mono font-bold text-blue-500">TRAVELOKAHEMAT</span> (-100rb), <span className="font-mono font-bold text-blue-500">UASBEST</span> (-150rb).
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -976,11 +1161,11 @@ const FlightDetail = () => {
                   </button>
                 ) : (
                   <button
-                    onClick={handleBooking}
-                    className="flex items-center gap-2 px-8 py-3 font-bold text-white bg-green-600 rounded-lg hover:bg-green-700"
+                    onClick={handleInitiatePayment}
+                    className="flex items-center gap-2 px-8 py-3.5 font-bold text-white bg-linear-to-r from-emerald-600 to-teal-600 rounded-xl hover:from-emerald-700 hover:to-teal-700 shadow-lg shadow-emerald-500/25 transition-all transform active:scale-95"
                   >
                     <AiOutlineCheckCircle size={20} />
-                    Bayar Sekarang
+                    <span>Lanjut ke Pembayaran ({formatPrice(finalTotal)})</span>
                   </button>
                 )}
               </div>
@@ -994,32 +1179,65 @@ const FlightDetail = () => {
                 Ringkasan Harga
               </h3>
 
-              <div className="space-y-4">
-                <div className="flex justify-between text-sm">
+              <div className="space-y-3.5 text-xs sm:text-sm">
+                <div className="flex justify-between">
                   <span className="text-gray-600 dark:text-gray-400">
-                    {passengers} x {formatPrice(getPrice())}
+                    Tarif Tiket ({passengers}x)
                   </span>
                   <span className="font-semibold text-gray-900 dark:text-white">
-                    {formatPrice(totalPrice)}
+                    {formatPrice(ticketBaseTotal)}
                   </span>
                 </div>
-                <div className="flex justify-between text-sm">
+
+                {baggageTotal > 0 && (
+                  <div className="flex justify-between text-blue-600 dark:text-blue-400">
+                    <span>Extra Bagasi (+{selectedBaggage.kg}kg)</span>
+                    <span className="font-semibold">{formatPrice(baggageTotal)}</span>
+                  </div>
+                )}
+
+                {mealTotal > 0 && (
+                  <div className="flex justify-between text-blue-600 dark:text-blue-400">
+                    <span className="truncate pr-2">Makanan Pesawat</span>
+                    <span className="font-semibold shrink-0">{formatPrice(mealTotal)}</span>
+                  </div>
+                )}
+
+                {insuranceTotal > 0 && (
+                  <div className="flex justify-between text-blue-600 dark:text-blue-400">
+                    <span>Asuransi FlyBook Care</span>
+                    <span className="font-semibold">{formatPrice(insuranceTotal)}</span>
+                  </div>
+                )}
+
+                <div className="flex justify-between">
                   <span className="text-gray-600 dark:text-gray-400">
-                    Pajak & Fee
+                    Pajak Bandara &amp; PPN (10%)
                   </span>
                   <span className="font-semibold text-gray-900 dark:text-white">
                     {formatPrice(tax)}
                   </span>
                 </div>
+
+                {discountAmount > 0 && (
+                  <div className="flex justify-between text-emerald-600 dark:text-emerald-400 font-semibold">
+                    <span>Diskon Kupon Promo</span>
+                    <span>-{formatPrice(discountAmount)}</span>
+                  </div>
+                )}
+
                 <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-                  <div className="flex justify-between">
-                    <span className="text-lg font-bold text-gray-900 dark:text-white">
-                      Total
+                  <div className="flex justify-between items-baseline">
+                    <span className="text-base font-bold text-gray-900 dark:text-white">
+                      Total Pembayaran
                     </span>
-                    <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                    <span className="text-2xl font-black text-blue-600 dark:text-blue-400">
                       {formatPrice(finalTotal)}
                     </span>
                   </div>
+                  <span className="text-[11px] text-gray-400 block mt-1">
+                    Termasuk seluruh pajak, biaya layanan &amp; asuransi
+                  </span>
                 </div>
               </div>
             </div>
@@ -1037,6 +1255,15 @@ const FlightDetail = () => {
         currentSeat={passengerData[currentPassengerIndexForSeat]?.seat || ""}
         onSelectSeat={handleSeatSelected}
         userId={user?.id || user?.email || "guest-user"}
+      />
+
+      {/* Enterprise Payment Gateway Modal */}
+      <PaymentGatewayModal
+        isOpen={paymentModalOpen}
+        onClose={() => setPaymentModalOpen(false)}
+        bookingData={pendingBookingData}
+        totalAmount={finalTotal}
+        onPaymentSuccess={handlePaymentSuccess}
       />
 
       {/* Alert Modal */}

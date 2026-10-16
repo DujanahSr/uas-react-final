@@ -830,14 +830,29 @@ const AdminFlights = () => {
                     </div>
 
                     {/* Status Badge */}
-                    <div className="flex items-center gap-3">
-                      <span
-                        className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusBadge(
+                    <div className="flex items-center gap-2">
+                      <select
+                        value={flight.status}
+                        onChange={(e) => {
+                          updateFlight(flight.id, { ...flight, status: e.target.value });
+                          setAlert({
+                            isOpen: true,
+                            type: "success",
+                            title: "Status Operasional Diperbarui",
+                            message: `Status penerbangan ${flight.flightNumber} diubah menjadi ${e.target.value}`,
+                          });
+                        }}
+                        className={`text-xs px-2.5 py-1 rounded-lg border font-semibold transition-all cursor-pointer ${getStatusBadge(
                           flight.status
                         )}`}
+                        title="Ubah Status Operasional Penerbangan Secara Cepat"
                       >
-                        {flight.status}
-                      </span>
+                        <option value="Tersedia">Tersedia</option>
+                        <option value="Hampir Penuh">Hampir Penuh</option>
+                        <option value="Penuh">Penuh</option>
+                        <option value="Boarding">Boarding</option>
+                        <option value="Delayed">Delayed</option>
+                      </select>
 
                       {/* Action Buttons */}
                       <div className="flex gap-2">

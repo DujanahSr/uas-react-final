@@ -5,6 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 import { formatPrice, formatDate, getStatusBadge } from "../../data/mockData";
 import BookingDetailModal from "../../components/BookingDetailModal";
 import ETicketModal from "../../components/ETicketModal";
+import WebCheckInModal from "../../components/WebCheckInModal";
 import ConfirmModal from "../../components/ConfirmModal";
 import Footer from "../../components/Footer";
 import {
@@ -34,6 +35,7 @@ const MyBookings = () => {
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [showETicketModal, setShowETicketModal] = useState(false);
+  const [showCheckInModal, setShowCheckInModal] = useState(false);
   const [refundConfirm, setRefundConfirm] = useState({
     isOpen: false,
     booking: null,
@@ -340,6 +342,21 @@ const MyBookings = () => {
                         <AiOutlineDownload size={16} />
                         E-Ticket
                       </button>
+                      {(booking.status === "Confirmed" ||
+                        booking.status === "Paid" ||
+                        booking.paymentStatus === "Paid") && (
+                        <button
+                          onClick={() => {
+                            setSelectedBooking(booking);
+                            setShowCheckInModal(true);
+                          }}
+                          className="flex items-center gap-1.5 px-3.5 py-2 text-sm font-bold text-emerald-700 bg-emerald-50 border border-emerald-300 rounded-lg hover:bg-emerald-100 dark:bg-emerald-950/40 dark:border-emerald-700 dark:text-emerald-300 transition-all active:scale-95"
+                          title="Check-in Online & Terbitkan Boarding Pass"
+                        >
+                          <FaPlane size={13} />
+                          Check-In
+                        </button>
+                      )}
                       {isRefundAvailable(booking) && (
                         <button
                           onClick={() =>
@@ -374,6 +391,14 @@ const MyBookings = () => {
         isOpen={showETicketModal}
         onClose={() => {
           setShowETicketModal(false);
+          setSelectedBooking(null);
+        }}
+      />
+      <WebCheckInModal
+        booking={selectedBooking}
+        isOpen={showCheckInModal}
+        onClose={() => {
+          setShowCheckInModal(false);
           setSelectedBooking(null);
         }}
       />

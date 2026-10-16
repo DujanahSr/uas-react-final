@@ -17,6 +17,8 @@ import SearchResults from "./pages/user/SearchResults";
 import FlightDetail from "./pages/user/FlightDetail";
 import BookingSuccess from "./pages/user/BookingSuccess";
 import MyBookings from "./pages/user/MyBookings";
+import WebCheckIn from "./pages/user/WebCheckIn";
+import FlightStatus from "./pages/user/FlightStatus";
 import Profile from "./pages/user/Profile";
 import Help from "./pages/user/Help";
 
@@ -126,6 +128,8 @@ function App() {
                   <Route path="/flight/:id" element={<FlightDetail />} />
                   <Route path="/booking-success" element={<BookingSuccess />} />
                   <Route path="/my-bookings" element={<MyBookings />} />
+                  <Route path="/check-in" element={<WebCheckIn />} />
+                  <Route path="/flight-status" element={<FlightStatus />} />
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/help" element={<Help />} />
                 </Route>
@@ -135,6 +139,7 @@ function App() {
                   <Route index element={<AdminDashboard />} />
                   <Route path="flights" element={<AdminFlights />} />
                   <Route path="bookings" element={<AdminBookings />} />
+                  <Route path="fids" element={<FlightStatus />} />
                   <Route path="analytics" element={<AdminAnalytics />} />
                   <Route path="settings" element={<AdminSettings />} />
                 </Route>

@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/set-state-in-effect */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FlightCard from "../../components/FlightCard";
 import { useData } from "../../context/DataContext";
-import { searchFlights, sortFlights, airlines } from "../../data/mockData";
+import { searchFlights, sortFlights, airlines, formatPrice } from "../../data/mockData";
 import {
   AiOutlineFilter,
   AiOutlineSortAscending,
@@ -136,9 +136,112 @@ const SearchResults = () => {
   const maxPrice = Math.max(...flights.map((f) => f.price), 0);
   const minPrice = Math.min(...flights.map((f) => f.price), 0);
 
+  // Low-Fare Calendar date strip (Traveloka-grade price calendar)
+  const baseDateStr =
+    filters.departureDate || new Date().toISOString().split("T")[0];
+  const dateStrip = useMemo(() => {
+    const baseDate = new Date(baseDateStr);
+    const dayNames = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "Mei",
+      "Jun",
+      "Jul",
+      "Ags",
+      "Sep",
+      "Okt",
+      "Nov",
+      "Des",
+    ];
+
+    return [-2, -1, 0, 1, 2].map((offset) => {
+      const d = new Date(baseDate);
+      d.setDate(baseDate.getDate() + offset);
+      const iso = d.toISOString().split("T")[0];
+      const dayName = dayNames[d.getDay()];
+      const dayNum = d.getDate();
+      const monthName = monthNames[d.getMonth()];
+
+      const matching = flights.filter((f) => {
+        const fromMatch =
+          !filters.from ||
+          f.from.toLowerCase().includes(filters.from.toLowerCase()) ||
+          f.fromCode === filters.from;
+        const toMatch =
+          !filters.to ||
+          f.to.toLowerCase().includes(filters.to.toLowerCase()) ||
+          f.toCode === filters.to;
+        return fromMatch && toMatch;
+      });
+
+      const baseLowest =
+        matching.length > 0 ? Math.min(...matching.map((f) => f.price)) : 850000;
+      const variationMultiplier =
+        offset === 0
+          ? 1
+          : offset === 1
+          ? 0.95
+          : offset === -1
+          ? 1.08
+          : offset === 2
+          ? 1.12
+          : 0.98;
+      const lowest = Math.round(baseLowest * variationMultiplier);
+
+      return {
+        dateStr: iso,
+        displayDate: `${dayName}, ${dayNum} ${monthName}`,
+        price: lowest,
+        isCurrent: iso === (filters.departureDate || baseDateStr),
+      };
+    });
+  }, [baseDateStr, flights, filters.from, filters.to, filters.departureDate]);
+
+  const minStripPrice = useMemo(() => {
+    return Math.min(...dateStrip.map((d) => d.price));
+  }, [dateStrip]);
+
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-50 via-blue-50/20 to-indigo-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
       <main className="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        {/* Traveloka-Style Low-Fare Date Calendar Strip */}
+        <div className="mb-6 p-3 bg-white/90 backdrop-blur-sm border border-gray-200/60 rounded-2xl shadow-sm dark:bg-slate-800/90 dark:border-slate-700/60 overflow-x-auto animate-slideInUp">
+          <div className="text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2 px-1 flex items-center justify-between">
+            <span>Kalender Tarif Rendah (± 2 Hari)</span>
+            <span className="text-blue-600 dark:text-blue-400">Klik tanggal untuk ubah jadwal</span>
+          </div>
+          <div className="flex items-center gap-2 min-w-[620px]">
+            {dateStrip.map((item) => (
+              <button
+                key={item.dateStr}
+                type="button"
+                onClick={() => {
+                  setFilters((prev) => ({ ...prev, departureDate: item.dateStr }));
+                  setCurrentPage(1);
+                }}
+                className={`flex-1 py-2.5 px-3 rounded-xl border text-center transition-all ${
+                  item.isCurrent
+                    ? "border-blue-600 bg-blue-50/70 text-blue-700 dark:bg-blue-900/40 dark:border-blue-500 dark:text-blue-300 ring-2 ring-blue-500/20 shadow-sm"
+                    : "border-gray-200 dark:border-slate-700 hover:border-gray-300 dark:hover:border-slate-600 text-gray-700 dark:text-gray-300"
+                }`}
+              >
+                <div className="text-xs font-semibold">{item.displayDate}</div>
+                <div className="text-xs font-bold font-mono mt-0.5">
+                  {formatPrice(item.price)}
+                </div>
+                {item.price === minStripPrice && (
+                  <span className="inline-block mt-1 px-2 py-0.5 text-[9px] font-bold text-emerald-700 bg-emerald-100 rounded-full dark:bg-emerald-950/60 dark:text-emerald-300">
+                    Termurah
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* Actions */}
         <div className="flex flex-wrap gap-2 mb-6 sm:gap-3 sm:justify-end animate-slideInUp">
           <div className="flex flex-wrap gap-2 sm:gap-3">

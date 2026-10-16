@@ -15,6 +15,7 @@ import {
   AiOutlineSearch,
   AiOutlineHome,
   AiOutlineQuestionCircle,
+  AiOutlineCheckCircle,
 } from "react-icons/ai";
 import { FaPlaneDeparture } from "react-icons/fa";
 import { useTheme } from "../context/ThemeContext";
@@ -45,6 +46,16 @@ const Sidebar = ({ role = "admin", onLogout }) => {
             label: "Riwayat Booking",
           },
           {
+            path: "/check-in",
+            icon: <AiOutlineCheckCircle size={20} />,
+            label: "Web Check-In",
+          },
+          {
+            path: "/flight-status",
+            icon: <FaPlaneDeparture size={20} />,
+            label: "Status Bandara (FIDS)",
+          },
+          {
             path: "/profile",
             icon: <AiOutlineUser size={20} />,
             label: "Profil",
@@ -70,6 +81,11 @@ const Sidebar = ({ role = "admin", onLogout }) => {
             path: "/admin/bookings",
             icon: <AiOutlineCalendar size={20} />,
             label: "Pemesanan",
+          },
+          {
+            path: "/admin/fids",
+            icon: <FaPlaneDeparture size={20} />,
+            label: "Jadwal Bandara (FIDS)",
           },
           {
             path: "/admin/analytics",

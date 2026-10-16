@@ -949,6 +949,30 @@ const AdminBookings = () => {
                 ? "Anda yakin ingin menyetujui refund untuk pemesanan ini? Status booking akan diubah menjadi Cancelled dan payment menjadi Refunded."
                 : "Anda yakin ingin menolak permintaan refund untuk pemesanan ini?"}
             </p>
+            {confirmRefund.action === "approve" && (
+              (() => {
+                const targetBooking = bookings.find((b) => b.id === confirmRefund.bookingId);
+                const total = targetBooking?.totalPrice || 0;
+                const fee = Math.round(total * 0.1);
+                const net = total - fee;
+                return (
+                  <div className="p-3 bg-blue-50 border border-blue-200 rounded-xl dark:bg-blue-950/30 dark:border-blue-900 text-xs space-y-1.5 text-gray-700 dark:text-gray-300">
+                    <div className="font-bold text-gray-900 dark:text-white flex justify-between">
+                      <span>Nominal Tiket Asli:</span>
+                      <span>{formatPrice(total)}</span>
+                    </div>
+                    <div className="flex justify-between text-rose-600 dark:text-rose-400">
+                      <span>Biaya Pembatalan (10%):</span>
+                      <span>-{formatPrice(fee)}</span>
+                    </div>
+                    <div className="pt-1.5 border-t border-blue-200 dark:border-blue-900/60 font-bold text-emerald-600 dark:text-emerald-400 flex justify-between">
+                      <span>Pengembalian Bersih (90%):</span>
+                      <span>{formatPrice(net)}</span>
+                    </div>
+                  </div>
+                );
+              })()
+            )}
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                 Catatan Admin {confirmRefund.action === "reject" && <span className="text-red-500">*</span>}
