@@ -137,8 +137,20 @@ export const DataProvider = ({ children }) => {
           departureTime: b.flight?.departure_time ? b.flight.departure_time.split("T")[1]?.substring(0, 5) : "",
           arrivalTime: b.flight?.arrival_time ? b.flight.arrival_time.split("T")[1]?.substring(0, 5) : "",
           totalPrice: Number(b.total_amount) || 0,
-          status: b.status === "CONFIRMED" ? "Confirmed" : b.status === "PENDING_PAYMENT" ? "Pending" : b.status,
-          paymentStatus: b.payment?.status === "PAID" ? "Paid" : "Pending",
+          status:
+            b.status === "CONFIRMED" || b.status === "PAID"
+              ? "Confirmed"
+              : b.status === "PENDING_PAYMENT"
+              ? "Pending"
+              : b.status === "CANCELLED" || b.status === "EXPIRED"
+              ? "Cancelled"
+              : b.status,
+          paymentStatus:
+            b.payment?.status === "PAID" ||
+            b.status === "PAID" ||
+            b.status === "CONFIRMED"
+              ? "Paid"
+              : "Pending",
           paymentMethod: b.payment?.payment_method || "CREDIT_CARD",
           bookingDate: b.created_at ? b.created_at.split("T")[0] : new Date().toISOString().split("T")[0],
           seats: (b.passengers || []).map((p) => p.seat_number),

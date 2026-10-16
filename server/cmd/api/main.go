@@ -95,9 +95,32 @@ func main() {
 	// 9. Prometheus Metrics Endpoint
 	router.GET("/metrics", gin.WrapH(promhttp.Handler()))
 
+	// API Info / Index Handler
+	apiIndexHandler := func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"status":  "success",
+			"name":    "FlyBook Enterprise API",
+			"version": "1.0.0",
+			"message": "Welcome to FlyBook Enterprise Flight Booking Backend API",
+			"endpoints": gin.H{
+				"health":      "/api/v1/health",
+				"metrics":     "/metrics",
+				"flights":     "/api/v1/flights",
+				"auth_login":  "/api/v1/auth/login",
+				"auth_reg":    "/api/v1/auth/register",
+				"my_bookings": "/api/v1/bookings/my",
+			},
+			"timestamp": time.Now().UTC().Format(time.RFC3339),
+		})
+	}
+	router.GET("/", apiIndexHandler)
+
 	// 10. Base API v1 Routes
 	v1 := router.Group("/api/v1")
 	{
+		v1.GET("", apiIndexHandler)
+		v1.GET("/", apiIndexHandler)
+
 		// Health Check
 		v1.GET("/health", func(c *gin.Context) {
 			ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
